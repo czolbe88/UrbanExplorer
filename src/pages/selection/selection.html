@@ -15,4 +15,31 @@
 
 <ion-content padding>
 
+  <ion-grid>
+    <ion-row>
+      <ion-col *ngFor="let selection of allTypes">
+
+
+        <button *ngIf="selectedTypes.indexOf(selection) > -1; else unSelected" ion-button (click)= "removeSelection(selection)" >{{selection}}</button>
+
+        <ng-template #unSelected>
+        <button  ion-button outline (click)="addSelection(selection)">{{selection}}</button>
+        </ng-template>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+
+
+
+
+
 </ion-content>
+
+<!--<button ion-button outline (click)="addSelection(selection)" >{{selection}}</button>-->
+
+<!--<button *ngif="selectedTypes.indexOf(selection) > -1" ion-button;else unSelected  (click)= "removeSelection(selection)"; >{{selection}}</button>-->
+
+<!--<button #unSelected ion-button outline (click)="addSelection(selection)"; else unSelected>{{selection}}</button>-->

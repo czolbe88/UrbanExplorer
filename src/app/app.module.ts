@@ -16,6 +16,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {locationService} from "../services/location";
 import {searchService} from "../services/search";
 import {types} from "../services/types";
+import {SelectionPage} from "../pages/selection/selection";
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import {types} from "../services/types";
     AboutPage,
     ContactPage,
     HomePage,
-    TabsPage
+    TabsPage,
+    SelectionPage
   ],
   imports: [
     BrowserModule,
@@ -37,7 +39,8 @@ import {types} from "../services/types";
     AboutPage,
     ContactPage,
     HomePage,
-    TabsPage
+    TabsPage,
+    SelectionPage
   ],
   providers: [
     StatusBar,

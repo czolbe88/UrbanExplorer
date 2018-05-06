@@ -17,16 +17,37 @@ import{types} from '../../services/types';
 export class SelectionPage implements OnInit {
 
 
+  allTypes: string[] = [];
+  selectedTypes: string[] = this.typesService.selectedTypes;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private typesService: types) {
   }
 
   ngOnInit() {
 
+    this.allTypes = this.typesService.allTypes;
+    console.log(">>>selection.ts selected types are: ", this.typesService.selectedTypes);
+
   }
 
-  allTypes: string[] = this.typesService.allTypes;
 
+addSelection(i:string){
+
+    console.log(`selection.ts added ${i} from selection`);
+    this.typesService.selectedTypes.push(i);
+    console.log("selected types are now: ", this.typesService.selectedTypes);
+
+
+}
+
+removeSelection(i:string){
+
+  console.log(`selection.ts removed ${i} from selection`);
+  var indexNo = this.typesService.selectedTypes.indexOf(i);
+  this.typesService.selectedTypes.splice(indexNo, 1);
+  console.log("selected types are now: ", this.typesService.selectedTypes);
+
+}
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SelectionPage');

@@ -7,12 +7,12 @@ import {Injectable} from "@angular/core";
 @Injectable()
 export class searchService {
 
-constructor(private locationSvc:locationService, private httpClient: HttpClient, private typeContainer: types){};
+constructor(private locationSvc:locationService, private httpClient: HttpClient, private typeService: types){};
 
-allTypes: string[] = this.typeContainer.allTypes;
-selectedTypes: string[];
+
+selectedTypes: string[] = this.typeService.selectedTypes;
 currentLocation: string = this.locationSvc.currentLocation;
-readonly key:string = "INSERT KEY HERE"; //DELETE before pushing to repo
+readonly key:string = "DELETE"; //DELETE before pushing to repo
 
 url: string = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=${this.key}&radius=1000&location=${this.currentLocation}&type=`
 
@@ -24,6 +24,14 @@ getAllNearbyPoints(){
 
 
 }
+
+searchByType(type: string){
+
+  this.httpClient.get(this.url + type );
+
+}
+
+
 
 
 

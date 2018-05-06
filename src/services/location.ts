@@ -15,7 +15,7 @@ export class locationService{
       window.navigator.geolocation.watchPosition(
         position => {
           this.currentLocation = position.coords.latitude.toString() + "," + position.coords.longitude.toString();
-          console.log(this.currentLocation);
+          console.log(">>>location.ts current location is: ", this.currentLocation);
         },
         error => {
 
