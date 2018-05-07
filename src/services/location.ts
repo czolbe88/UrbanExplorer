@@ -4,10 +4,24 @@ import {Injectable} from "@angular/core";
 @Injectable()
 export class locationService{
 
-  currentLocation: string ="";
+  currentLocation: string ;
 
 
-  getLocation(){
+   getLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition( (position)=>{
+
+        console.log(position.coords.latitude + "," + position.coords.longitude)
+
+        this.currentLocation =  position.coords.latitude + "," + position.coords.longitude});
+
+    } else {
+
+    }
+  }
+
+
+  watchLocation(){
 
     // console.log(">>> locationService: getLocation()");
 

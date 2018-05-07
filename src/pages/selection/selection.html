@@ -17,13 +17,13 @@
 
   <ion-grid>
     <ion-row>
-      <ion-col *ngFor="let selection of allTypes">
+      <ion-col col-6 *ngFor="let selection of allTypes">
 
 
-        <button *ngIf="selectedTypes.indexOf(selection) > -1; else unSelected" ion-button (click)= "removeSelection(selection)" >{{selection}}</button>
+        <button *ngIf="selectedTypes.indexOf(selection) > -1; else unSelected" ion-button block (click)= "removeSelection(selection)" >{{selection}}</button>
 
         <ng-template #unSelected>
-        <button  ion-button outline (click)="addSelection(selection)">{{selection}}</button>
+        <button  ion-button block outline (click)="addSelection(selection)">{{selection}}</button>
         </ng-template>
 
       </ion-col>

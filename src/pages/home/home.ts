@@ -3,6 +3,7 @@ import { NavController } from 'ionic-angular';
 import {locationService} from "../../services/location";
 import {searchService} from "../../services/search";
 import {types} from "../../services/types";
+import 'rxjs/add/operator/take';
 
 @Component({
   selector: 'page-home',
@@ -21,14 +22,20 @@ export class HomePage {
 
   getAllUserPOI(){
 
-    //TODO
+    console.log("button clicked");
 
-    // for(let type in this.selectedTypes){
-    //
-    //   this.searchServ.searchByType(type).get
-    //
-    //
-    // }
+
+
+    console.log(this.selectedTypes);
+
+
+    for(let type of this.selectedTypes){
+
+
+      this.searchServ.searchByType(type);
+
+
+    }
 
 
 
