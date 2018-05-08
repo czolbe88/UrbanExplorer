@@ -2,6 +2,7 @@ import {HttpClient} from '@angular/common/http';
 import{types} from './types';
 import {locationService} from "./location";
 import { Injectable, OnInit} from "@angular/core";
+import {Observable} from "rxjs/Observable";
 
 
 @Injectable()
@@ -16,7 +17,7 @@ ngOnInit(){
 
 selectedTypes: string[] = this.typeService.selectedTypes;
 
-readonly key:string = "XXX"; //DELETE before pushing to repo
+readonly key:string = "DEL"; //DELETE before pushing to repo
 
 url: string = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=${this.key}&radius=1000&type=`;
 
@@ -28,28 +29,13 @@ getAllNearbyPoints(){
 
 }
 
-searchByType(type: string){
-
-
+searchByType(type: string): Promise<any>{
 
 var appendedUrl = this.url +type + "&location=" + this.locationSvc.currentLocation;
 console.log(appendedUrl);
-  this.httpClient.get(appendedUrl )
-    .take(1)
-    .toPromise()
-    .then(
-      (resp)=>{
-        console.log(resp);
-        return resp;
-      }
-    )
-    .catch(
-      (error)=>{
-        console.log(error);
-      }
-    );
-
+  return this.httpClient.get(appendedUrl).take(1).toPromise();
 }
+
 
 getPlaceDetails(placeid: string){
 
