@@ -8,7 +8,14 @@ export interface place{
     lat: number;
     lng: number;
   }
+  //details
+  address: string;
+  phone: number;
+  opening_hours: string;
+  rating: number;
+  types: string[];
 
-  //distance
 
+  //distance to currentLocation at the time of refresh
+  distance: string;
 }

@@ -14,6 +14,8 @@ import {locationService} from "../services/location";
 import {searchService} from "../services/search";
 import {types} from "../services/types";
 import {SelectionPage} from "../pages/selection/selection";
+import {key} from "../Utility/key";
+import {distanceService} from "../services/distance";
 
 
 @NgModule({
@@ -42,6 +44,8 @@ import {SelectionPage} from "../pages/selection/selection";
     searchService,
     locationService,
     types,
+    key,
+    distanceService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

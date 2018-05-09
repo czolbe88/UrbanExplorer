@@ -33,25 +33,19 @@ searchByType(type: string): Promise<any>{
 
 var appendedUrl = this.url +type + "&location=" + this.locationSvc.currentLocation;
 console.log(appendedUrl);
-  return this.httpClient.get(appendedUrl).take(1).toPromise();
+  return this.httpClient.get(appendedUrl)
+    .take(1)
+    .toPromise();
 }
 
 
-getPlaceDetails(placeid: string){
+getPlaceDetails(placeid: string): Promise<any>{
 
-  this.httpClient.get(this.url2 + placeid )
+  return this.httpClient.get(this.url2 + placeid )
     .take(1)
     .toPromise()
-    .then(
-      (resp)=>{
-        return resp;
-      }
-    )
-    .catch(
-      (error)=>{
-        console.log(error);
-      }
-    );
+
+
 
 }
 
