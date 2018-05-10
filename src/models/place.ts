@@ -14,8 +14,9 @@ export interface place{
   opening_hours: string;
   rating: number;
   types: string[];
+  website: string;
 
 
   //distance to currentLocation at the time of refresh
-  distance: string;
+  distance: number;
 }

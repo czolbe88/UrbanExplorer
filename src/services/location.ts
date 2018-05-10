@@ -1,10 +1,17 @@
 import {Injectable} from "@angular/core";
+import {HttpClient} from "@angular/common/http";
+import {key} from "../Utility/key";
 
 
 @Injectable()
 export class locationService{
 
+  constructor(private httpClient: HttpClient, private keyConst: key){}
   currentLocation: string[] = new Array();
+
+  url: string = `https://maps.googleapis.com/maps/api/geocode/json?key=${this.keyConst.APIKEY}&latlng=`
+
+
 
 
   //  getLocation() {
@@ -30,6 +37,19 @@ export class locationService{
         position => {
           this.currentLocation[0] = position.coords.latitude.toString() + "," + position.coords.longitude.toString();
           console.log(">>>location.ts current location is: ", this.currentLocation);
+
+          this.reverseGeocode(this.url).then(
+            (resp)=>{
+              console.log(resp['results'][0]['formatted_address']);
+
+              this.currentLocation[1] = resp['results'][0]['formatted_address'];
+            }
+          ).catch((error)=>{
+            console.log(">>>WARNING ERROR in location.ts", error);
+          })
+
+
+
         },
         error => {
 
@@ -50,6 +70,17 @@ export class locationService{
       );
     };
 
+  }
+
+  reverseGeocode(url: string):Promise<any> {
+
+
+
+    var appendedUrl = url + this.currentLocation[0];
+    console.log(appendedUrl);
+    return this.httpClient.get(appendedUrl)
+      .take(1)
+      .toPromise()
   }
 
 
