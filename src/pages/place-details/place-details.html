@@ -1,0 +1,62 @@
+<!--
+  Generated template for the PlaceDetailsPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      {{POIObject.name}}
+    </ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <span ion-text color="primary">Cancel</span>
+        <ion-icon name="md-close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<!--TODO : change avatar to photo of place, that can be zoomed!-->
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-avatar item-start>
+        <img src="{{POIObject.icon}}">
+      </ion-avatar>
+      <p>{{POIObject.types}}</p>
+    </ion-item>
+
+    <ion-item>
+      <h2>Address</h2>
+      <p>{{POIObject.address}}</p>
+    </ion-item>
+
+    <ion-item>
+    <h2>Contact Number</h2>
+    <p>{{POIObject.phone}}</p>
+  </ion-item>
+
+    <ion-item>
+      <h2>Website</h2>
+      <p>{{POIObject.website}}</p>
+    </ion-item>
+
+    <ion-item>
+      <h2>Opening Hours</h2>
+      <p>{{POIObject.opening_hours}}</p>
+    </ion-item>
+
+  </ion-list>
+</ion-content>
+
+<!--
+
+phone: number;
+opening_hours: string;
+rating: number;
+types: string[];
+website: string;
+-->

@@ -6,6 +6,8 @@ import {types} from "../../services/types";
 import 'rxjs/add/operator/take';
 import {place} from "../../models/place";
 import {distanceService} from "../../services/distance";
+import {ModalController} from "ionic-angular";
+import {PlaceDetailsPage} from "../place-details/place-details";
 
 @Component({
   selector: 'page-home',
@@ -14,7 +16,7 @@ import {distanceService} from "../../services/distance";
 export class HomePage implements OnInit {
 
   constructor(public navCtrl: NavController, private searchServ: searchService, private typeServ: types, private locationServ: locationService,
-              private distanceServ: distanceService) {
+              private distanceServ: distanceService, private modal: ModalController) {
 
   }
 
@@ -134,6 +136,19 @@ export class HomePage implements OnInit {
 
 
   }
+
+  //open modal
+  openPlaceDetails(placeId: string){
+
+    var POIObject: place = this.foundPOI.find(x=> x.placeid == placeId);
+
+    const myModal = this.modal.create('PlaceDetailsPage', { POI: POIObject});
+
+    myModal.present();
+
+
+  }
+
 
 
 }
