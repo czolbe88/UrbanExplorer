@@ -18,6 +18,8 @@ export class types{
 
   selectedTypes: string[] = [];
 
+  selectedPOIContainer : any = [];
+
 
 }
 

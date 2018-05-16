@@ -26,6 +26,8 @@ constructor(private keyconst: key, private locationServ: locationService, privat
       .take(1)
       .toPromise();
 
+    //TODO: Find out why distance can be more than 1km...
+
 
 
 

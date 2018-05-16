@@ -16,6 +16,8 @@ import {types} from "../services/types";
 import {SelectionPage} from "../pages/selection/selection";
 import {key} from "../Utility/key";
 import {distanceService} from "../services/distance";
+import {SettingsPage} from "../pages/settings/settings";
+import {photoService} from "../services/photo";
 
 
 @NgModule({
@@ -23,7 +25,8 @@ import {distanceService} from "../services/distance";
     MyApp,
     HomePage,
     TabsPage,
-    SelectionPage
+    SelectionPage,
+    SettingsPage
   ],
   imports: [
     BrowserModule,
@@ -36,7 +39,8 @@ import {distanceService} from "../services/distance";
     MyApp,
     HomePage,
     TabsPage,
-    SelectionPage
+    SelectionPage,
+    SettingsPage
   ],
   providers: [
     StatusBar,
@@ -46,6 +50,7 @@ import {distanceService} from "../services/distance";
     types,
     key,
     distanceService,
+    photoService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

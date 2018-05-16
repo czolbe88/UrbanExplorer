@@ -16,6 +16,11 @@ export interface place{
   types: string[];
   website: string;
 
+  //photo
+  photoRefContainer: string[];
+  photoUrlContainer: string[];
+
+
 
   //distance to currentLocation at the time of refresh
   distance: number;

@@ -8,6 +8,8 @@ import {place} from "../../models/place";
 import {distanceService} from "../../services/distance";
 import {ModalController} from "ionic-angular";
 import {PlaceDetailsPage} from "../place-details/place-details";
+import {LoadingController} from "ionic-angular";
+import {photoService} from "../../services/photo";
 
 @Component({
   selector: 'page-home',
@@ -16,7 +18,7 @@ import {PlaceDetailsPage} from "../place-details/place-details";
 export class HomePage implements OnInit {
 
   constructor(public navCtrl: NavController, private searchServ: searchService, private typeServ: types, private locationServ: locationService,
-              private distanceServ: distanceService, private modal: ModalController) {
+              private distanceServ: distanceService, private modal: ModalController, private loadingCtrl: LoadingController, private photoServ: photoService) {
 
   }
 
@@ -27,7 +29,9 @@ export class HomePage implements OnInit {
 
   currentLocationAddress: string;
 
-  selectedTypes: string[] = this.typeServ.selectedTypes;
+  selectedTypes: string[] = this.typeServ.selectedTypes; //TODO: Delete when replaced
+
+
 
   foundPOI:place[] = [];
 
@@ -37,10 +41,21 @@ export class HomePage implements OnInit {
 //REFRESH BUTTON
   getAllUserPOI() {
 
+    let loading = this.loadingCtrl.create({
+      content: "Loading"
+
+    });
+
+    loading.present();
+
+    //TODO: Create loading utility if needed on more than one page
+
     this.foundPOI.length = 0; //clear all results, better than //this.foundPOI = [];
 
 
-    for (let type of this.selectedTypes) {
+    for (let typeContainer of this.typeServ.selectedPOIContainer) {
+
+      var type = typeContainer.type;
 
       this.searchServ.searchByType(type).then(
         (resp) => {
@@ -71,6 +86,10 @@ export class HomePage implements OnInit {
                   website: null,
                 types: POI['types'],
 
+                  //photo
+                  photoRefContainer: [] ,
+                  photoUrlContainer: [],
+
                   //distance
                   distance: null
 
@@ -80,20 +99,35 @@ export class HomePage implements OnInit {
               this.searchServ.getPlaceDetails(POIObject.placeid)
                 .then((resp)=>{
                   console.log("getPlaceDetails resp: ", resp);
-                  console.log(resp['rating']); //UNDEFINED
-                  console.log(resp['website']); //UNDEFINED
-                  POIObject.rating = resp['rating'];
-                  POIObject.website = resp['website'];
+                  POIObject.rating = resp['result']['rating'];
+                  POIObject.website = resp['result']['website'];
                   POIObject.address = resp['result']['formatted_address'];
                   POIObject.phone = resp['result']['formatted_phone_number'];
                   POIObject.opening_hours = resp['result']['opening_hours'];
+                  POIObject.photoRefContainer = resp['result']['photos'];
 
 
                   console.log("POIObject is: ", POIObject);
 
+                  if(POIObject.photoRefContainer.length > 0) {
+
+                    for (let photoref of POIObject.photoRefContainer) {
+
+                      //console.log("photoref is: ", photoref);
+
+                      var ref = photoref['photo_reference'];
+
+                      var photoUrl: string = this.photoServ.getPhoto(ref);
+
+                      POIObject.photoUrlContainer.push(photoUrl);
+
+
+                    }
+                  }
+
                 })
                 .catch((error)=>{
-                  console.log(">>> getPlaceDetails error: ", error);
+                  //console.log(">>> getPlaceDetails error: ", error); //SUPPRESSED!!!! TODO: HANDLE THIS PROPERLY!
                 })
 
 
@@ -114,6 +148,8 @@ export class HomePage implements OnInit {
                 console.log(">>>getDistance error: ", error);
               })
 
+
+
               //console.log("POIObject", POIObject);
 
                this.foundPOI.push(POIObject);
@@ -123,7 +159,10 @@ export class HomePage implements OnInit {
             //console.log(">>> home.ts getAllUserPOI() resp= ", resp)
 
 
+
+
           }
+
 
           else if (resp['status'] != "OK"){ console.log(`>>>WARNING>>> search for type ${type}: `, resp['status'])}
         }
@@ -133,6 +172,8 @@ export class HomePage implements OnInit {
 
 
     }
+
+    loading.dismiss();
 
 
   }

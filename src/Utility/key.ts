@@ -5,14 +5,6 @@ import {Injectable} from "@angular/core";
 
 export class key{
 
-  readonly APIKEY:string = "DEL";
-
-
-
-
-
-
-
-
+  readonly APIKEY:string = "del";
 
 }

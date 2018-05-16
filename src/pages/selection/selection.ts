@@ -18,7 +18,8 @@ export class SelectionPage implements OnInit {
 
 
   allTypes: string[] = [];
-  selectedTypes: string[] = this.typesService.selectedTypes;
+  selectedTypes: string[] = this.typesService.selectedTypes; //TODO: DELETE WHEN REPLACED
+  selectedPOIContainers: any[] = this.typesService.selectedPOIContainer; //TODO: CREATE MODEL FOR POIContainer
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private typesService: types) {
   }
@@ -40,6 +41,14 @@ addSelection(i:string){
 
 }
 
+  addSelection2(i:string){
+
+    let  typeContainer = { type: i, foundPOI: [] };
+    this.typesService.selectedPOIContainer.push(typeContainer);
+    console.log("selected types (containers) are now: ", this.typesService.selectedPOIContainer);
+
+  }
+
 removeSelection(i:string){
 
   console.log(`selection.ts removed ${i} from selection`);
@@ -48,6 +57,22 @@ removeSelection(i:string){
   console.log("selected types are now: ", this.typesService.selectedTypes);
 
 }
+
+  removeSelection2(i:string){
+
+    var indexNo = this.typesService.selectedPOIContainer.find(x=> x.type == i);
+    this.typesService.selectedPOIContainer.splice(indexNo, 1);
+    console.log("selected types (containers) are now: ", this.typesService.selectedPOIContainer);
+
+
+  }
+
+  checkIfSelected(i: string): boolean{
+
+    return this.typesService.selectedPOIContainer.find(x=> x.type == i);
+
+
+  }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SelectionPage');
