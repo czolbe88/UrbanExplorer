@@ -20,10 +20,10 @@
       <ion-col col-6 *ngFor="let selection of allTypes">
 
 
-        <button *ngIf="checkIfSelected(selection); else unSelected" ion-button block (click)= "removeSelection2(selection)" >{{selection}}</button>
+        <button *ngIf="checkIfSelected(selection); else unSelected" ion-button block (click)= "removeSelection(selection)" >{{selection}}</button>
 
         <ng-template #unSelected>
-        <button  ion-button block outline (click)="addSelection2(selection)">{{selection}}</button>
+        <button  ion-button block outline (click)="addSelection(selection)">{{selection}}</button>
         </ng-template>
 
       </ion-col>

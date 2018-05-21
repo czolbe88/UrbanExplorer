@@ -10,9 +10,26 @@
   <p>Vicinity of {{currentLocation[1]}}</p>
 
 
-  <ion-list>
+  <!--<ion-list>-->
 
-    <ion-item *ngFor="let poi of foundPOI" (click)="openPlaceDetails(poi.placeid)">
+    <!--<ion-item *ngFor="let poi of foundPOI" (click)="openPlaceDetails(poi.placeid)">-->
+      <!--<ion-avatar item-start>-->
+        <!--<img src="{{poi.icon}}">-->
+      <!--</ion-avatar>-->
+      <!--<h2>{{poi.name}}</h2>-->
+      <!--<h3>{{poi.address}}</h3>-->
+      <!--<p>{{poi.distance}} {{distUnit}}</p>-->
+    <!--</ion-item>-->
+
+
+
+  <!--</ion-list>-->
+
+  <ion-list *ngFor="let typeContainer of selectedPOIContainer">
+    <ion-list-header >
+      {{typeContainer.type}}
+    </ion-list-header>
+    <ion-item *ngFor="let poi of typeContainer.POI" (click)="openPlaceDetails(poi.placeid)">
       <ion-avatar item-start>
         <img src="{{poi.icon}}">
       </ion-avatar>
@@ -21,8 +38,10 @@
       <p>{{poi.distance}} {{distUnit}}</p>
     </ion-item>
 
+
   </ion-list>
 
 
   <button ion-button (click) = "getAllUserPOI()">Refresh</button>
 </ion-content>
+

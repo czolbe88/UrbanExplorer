@@ -10,6 +10,7 @@ import {ModalController} from "ionic-angular";
 import {PlaceDetailsPage} from "../place-details/place-details";
 import {LoadingController} from "ionic-angular";
 import {photoService} from "../../services/photo";
+import {typeContainer} from "../../models/typeContainer";
 
 @Component({
   selector: 'page-home',
@@ -27,15 +28,13 @@ export class HomePage implements OnInit {
 
   currentLocation: string[] = this.locationServ.currentLocation;
 
-  currentLocationAddress: string;
-
-  selectedTypes: string[] = this.typeServ.selectedTypes; //TODO: Delete when replaced
-
-
+  selectedPOIContainer: typeContainer[] = this.typeServ.selectedPOIContainer;
 
   foundPOI:place[] = [];
 
   distUnit: string ="";
+
+
 
 
 //REFRESH BUTTON
@@ -152,7 +151,8 @@ export class HomePage implements OnInit {
 
               //console.log("POIObject", POIObject);
 
-               this.foundPOI.push(POIObject);
+              typeContainer.POI.push(POIObject);
+               this.foundPOI.push(POIObject); //TODO: DELETE WHEN REFACTORING IS COMPLETE
 
             }
 

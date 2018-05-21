@@ -1,4 +1,5 @@
 import {Injectable} from "@angular/core";
+import {typeContainer} from "../models/typeContainer";
 
 @Injectable()
 export class types{
@@ -16,9 +17,7 @@ export class types{
       "storage","store","subway_station","supermarket","synagogue","taxi_stand","train_station","transit_station","travel_agency","veterinary_care","zoo"]
 
 
-  selectedTypes: string[] = [];
-
-  selectedPOIContainer : any = [];
+  selectedPOIContainer : typeContainer[] = [];
 
 
 }
