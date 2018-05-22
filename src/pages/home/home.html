@@ -26,9 +26,18 @@
   <!--</ion-list>-->
 
   <ion-list *ngFor="let typeContainer of selectedPOIContainer">
-    <ion-list-header >
-      {{typeContainer.type}}
+    <ion-list-header *ngIf=" typeContainer.POI.length>0" >
+      {{typeContainer.type.toUpperCase()}} - {{typeContainer.POI.length}} results
     </ion-list-header>
+
+
+
+    <!--<ng-template #MoreThanTwentyResults >-->
+      <!--<ion-list-header *ngIf= "typeContainer.POI.length>0" >-->
+        <!--{{typeContainer.type.toUpperCase()}} - 20+ results-->
+      <!--</ion-list-header>-->
+    <!--</ng-template>-->
+
     <ion-item *ngFor="let poi of typeContainer.POI" (click)="openPlaceDetails(poi.placeid)">
       <ion-avatar item-start>
         <img src="{{poi.icon}}">

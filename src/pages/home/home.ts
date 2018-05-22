@@ -59,6 +59,8 @@ export class HomePage implements OnInit {
       this.searchServ.searchByType(type).then(
         (resp) => {
 
+          console.log("placesearch resp: ", resp);
+
           if (resp['status'] == "OK") {
 
             var POIList = resp['results'];
