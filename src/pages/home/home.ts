@@ -11,6 +11,7 @@ import {PlaceDetailsPage} from "../place-details/place-details";
 import {LoadingController} from "ionic-angular";
 import {photoService} from "../../services/photo";
 import {typeContainer} from "../../models/typeContainer";
+import {TabsPage} from "../tabs/tabs";
 
 @Component({
   selector: 'page-home',
@@ -28,13 +29,15 @@ export class HomePage implements OnInit {
 
   currentLocation: string[] = this.locationServ.currentLocation;
 
+  //container for POIContainers by type
   selectedPOIContainer: typeContainer[] = this.typeServ.selectedPOIContainer;
 
+  //container for ALL POI
   foundPOI:place[] = [];
 
   distUnit: string ="";
 
-
+   rootPage: any = TabsPage;
 
 
 //REFRESH BUTTON
@@ -49,12 +52,15 @@ export class HomePage implements OnInit {
 
     //TODO: Create loading utility if needed on more than one page
 
-    this.foundPOI.length = 0; //clear all results, better than //this.foundPOI = [];
-
+    //clear all
+    this.foundPOI.length = 0;
 
     for (let typeContainer of this.typeServ.selectedPOIContainer) {
 
       var type = typeContainer.type;
+
+      //clear all container contents
+      typeContainer.POI.length = 0;
 
       this.searchServ.searchByType(type).then(
         (resp) => {
@@ -133,6 +139,7 @@ export class HomePage implements OnInit {
 
 
               var POIdestination = POIObject.location['lat'].toString() +"," +  POIObject.location['lng'].toString();
+                console.log("POIDest is: ", POIdestination);
 
               this.distanceServ.getDistance(POIdestination).then((resp)=>{
 
@@ -144,7 +151,7 @@ export class HomePage implements OnInit {
                 this.distUnit = distStringArray[1];
                 POIObject.distance = parseFloat(distStringArray[0]);
                 //POIObject.distance = resp['rows'][0]['elements'][0]['distance']['text'];
-                //console.log("POIObject distance: ", POIObject.distance);
+                console.log("POIObject distance: ", POIObject.distance);
               }).catch((error)=>{
                 console.log(">>>getDistance error: ", error);
               })
@@ -153,8 +160,9 @@ export class HomePage implements OnInit {
 
               //console.log("POIObject", POIObject);
 
+              //push into both containers
               typeContainer.POI.push(POIObject);
-               this.foundPOI.push(POIObject); //TODO: DELETE WHEN REFACTORING IS COMPLETE
+               this.foundPOI.push(POIObject);
 
             }
 

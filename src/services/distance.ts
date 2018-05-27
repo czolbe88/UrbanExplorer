@@ -18,7 +18,7 @@ constructor(private keyconst: key, private locationServ: locationService, privat
   getDistance(destination:string): Promise<any> {
 
 
-    var reqUrl: string = this.url +this.locationServ.currentLocation+ "&destinations=" + destination;
+    var reqUrl: string = this.url +this.locationServ.currentLocation[0] + "&destinations=" + destination;
 
     console.log(reqUrl);
 

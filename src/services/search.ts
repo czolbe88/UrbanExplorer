@@ -16,12 +16,19 @@ ngOnInit(){
 
 }
 
-selectedTypes: string[] = this.typeService.selectedTypes;
+range: string = "1000";
 
-
-url: string = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=${this.keyConst.APIKEY}&radius=1000&type=`;
+url: string = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=${this.keyConst.APIKEY}&radius=`;
 
 url2: string = `https://maps.googleapis.com/maps/api/place/details/json?key=${this.keyConst.APIKEY}&placeid=`;
+
+
+rankby:string="";
+
+//open
+
+  //rankbyprominence or distance
+
 
 
 getAllNearbyPoints(){
@@ -32,7 +39,7 @@ getAllNearbyPoints(){
 
 searchByType(type: string): Promise<any>{
 
-var appendedUrl = this.url +type + "&location=" + this.locationSvc.currentLocation[0];
+var appendedUrl = this.url + this.range + "&type=" +type + "&location=" + this.locationSvc.currentLocation[0];
 console.log(appendedUrl);
   return this.httpClient.get(appendedUrl)
     .take(1)

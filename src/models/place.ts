@@ -11,7 +11,7 @@ export interface place{
   //details
   address: string;
   phone: number;
-  opening_hours: string;
+  opening_hours: any;
   rating: number;
   types: string[];
   website: string;

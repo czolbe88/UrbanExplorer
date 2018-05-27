@@ -1,1 +1,90 @@
-<ion-nav [root]="rootPage"></ion-nav>
+
+<ion-menu [content]="settingsMenu">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Settings</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+
+    <ion-list>
+
+      <!--range-->
+
+
+
+
+      <ion-list>
+        <ion-list-header>Range</ion-list-header>
+        <ion-range min="0" max="10000" step="50"   [(ngModel)]="range" (ionChange)="updateRange($event)">
+          <ion-icon range-left small name="walk"></ion-icon>
+          <ion-icon range-right name="car"></ion-icon>
+        </ion-range>
+        <p>{{range}}</p>
+      </ion-list>
+
+
+      <!-- units
+      -->
+
+      <ion-list radio-group>
+        <ion-list-header>
+          Units
+        </ion-list-header>
+
+        <ion-item>
+          <ion-label>Metric</ion-label>
+          <ion-radio checked="true" value="metric"></ion-radio>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Imperial</ion-label>
+          <ion-radio value="imperial"></ion-radio>
+        </ion-item>
+
+
+      </ion-list>
+
+
+      <!--sort by-->
+
+
+      <ion-list radio-group>
+        <ion-list-header>
+          Sort by
+        </ion-list-header>
+
+        <ion-item>
+          <ion-label>Distance</ion-label>
+          <ion-radio checked="true" value="distance"></ion-radio>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Rating</ion-label>
+          <ion-radio value="rating"></ion-radio>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Alphabetical</ion-label>
+          <ion-radio value="alphabetical"></ion-radio>
+        </ion-item>
+      </ion-list>
+
+
+
+
+      <!--end of sort by-->
+
+
+
+
+
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+
+<ion-nav #settingsMenu [root]="rootPage"></ion-nav>
+
+
+

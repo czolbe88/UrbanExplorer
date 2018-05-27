@@ -9,7 +9,8 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      {{POIObject.name}}
+      {{POIObject.name}} <!--TODO: Add info on whether POI is open-->
+
     </ion-title>
     <ion-buttons start>
       <button ion-button (click)="dismiss()">
@@ -17,16 +18,30 @@
         <ion-icon name="md-close"></ion-icon>
       </button>
     </ion-buttons>
+
+
+      <!--<p *ngIf="POIObject.opening_hours != 'not specified' ; else attrDefined"></p>-->
+    <!--<p #attrDefined *ngIf="POIObject.opening_hours['open_now'] == true" >open</p>-->
+
+
   </ion-toolbar>
 </ion-header>
-<!--TODO : change avatar to photo of place, that can be zoomed!-->
+
 <ion-content>
   <ion-list>
     <ion-item>
       <ion-avatar item-start>
         <img src="{{POIObject.icon}}">
       </ion-avatar>
-      <span *ngFor="let type of POIObject.types" >{{type}} </span>
+      <h2>Category</h2>
+      <p>{{POIObject.types.toString()}}</p>  <!--TODO: blasted string-->
+
+
+    </ion-item>
+
+    <ion-item>
+      <h2>Rating</h2>
+      <p>{{POIObject.rating}}</p>
     </ion-item>
 
     <ion-item>
@@ -44,12 +59,38 @@
       <p>{{POIObject.website}}</p>
     </ion-item>
 
-    <ion-item>
-      <h2>Opening Hours</h2>
-      <p>{{POIObject.opening_hours}}</p>
+    <ion-item *ngIf = "POIObject.opening_hours">
+      <h2 >Opening Hours</h2>
+      <br>
+
+
+      <p *ngFor="let openingText of POIObject.opening_hours['weekday_text']">{{openingText}}</p>
+
+
     </ion-item>
 
+    <ion-row>
+      <ion-col col-3 *ngFor="let urlString of POIObject.photoUrlContainer">
+
+        <img src="{{urlString}}"> <!--TODO: open overlay showing large image-->
+
+      </ion-col>
+
+    </ion-row>
+
+      <!--<ion-thumbnail col-3 *ngFor="let urlString of POIObject.photoUrlContainer">-->
+
+        <!--<img src="{{urlString}}">-->
+
+      <!--</ion-thumbnail>-->
+
+
+
+
   </ion-list>
+
+
+
 </ion-content>
 
 <!--

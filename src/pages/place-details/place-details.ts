@@ -24,7 +24,6 @@ export class PlaceDetailsPage {
 
 
 
-
   ionViewDidLoad() {
     console.log("place details loaded as ", this.POIObject);
     console.log('ionViewDidLoad PlaceDetailsPage');
