@@ -23,11 +23,13 @@ url: string = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=
 url2: string = `https://maps.googleapis.com/maps/api/place/details/json?key=${this.keyConst.APIKEY}&placeid=`;
 
 
-rankby:string="";
+rankby:string="prominence";
 
-//open
+//&openow=
 
-  //rankbyprominence or distance
+  //prominence
+  //
+  // distance
 
 
 
@@ -39,9 +41,20 @@ getAllNearbyPoints(){
 
 searchByType(type: string): Promise<any>{
 
-var appendedUrl = this.url + this.range + "&type=" +type + "&location=" + this.locationSvc.currentLocation[0];
-console.log(appendedUrl);
-  return this.httpClient.get(appendedUrl)
+
+  var url: string = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=${this.keyConst.APIKEY}&radius=${this.range}&type=${type}&location=${this.locationSvc.currentLocation[0]}&rankby=${this.rankby}`;
+
+  // if(this.rankby == "distance"){
+  //
+  //   url= `https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=${this.keyConst.APIKEY}&type=${type}&location=${this.locationSvc.currentLocation[0]}&rankby=${this.rankby}`;
+  //
+  // }
+
+
+//var appendedUrl = this.url + this.range + "&type=" +type + "&location=" + this.locationSvc.currentLocation[0];
+
+console.log(url);
+  return this.httpClient.get(url)
     .take(1)
     .toPromise();
 }

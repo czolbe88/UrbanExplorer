@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {NavController} from 'ionic-angular';
 import {locationService} from "../../services/location";
 import {searchService} from "../../services/search";
 import {types} from "../../services/types";
@@ -12,6 +11,9 @@ import {LoadingController} from "ionic-angular";
 import {photoService} from "../../services/photo";
 import {typeContainer} from "../../models/typeContainer";
 import {TabsPage} from "../tabs/tabs";
+import {sortingUtility} from "../../Utility/sorting";
+import {CallNumber} from "@ionic-native/call-number";
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 @Component({
   selector: 'page-home',
@@ -19,7 +21,7 @@ import {TabsPage} from "../tabs/tabs";
 })
 export class HomePage implements OnInit {
 
-  constructor(public navCtrl: NavController, private searchServ: searchService, private typeServ: types, private locationServ: locationService,
+  constructor(private inAppBrowser: InAppBrowser, private callNum: CallNumber, private searchServ: searchService, private typeServ: types, private locationServ: locationService, private sortingUtility: sortingUtility,
               private distanceServ: distanceService, private modal: ModalController, private loadingCtrl: LoadingController, private photoServ: photoService) {
 
   }
@@ -157,7 +159,6 @@ export class HomePage implements OnInit {
               })
 
 
-
               //console.log("POIObject", POIObject);
 
               //push into both containers
@@ -165,9 +166,6 @@ export class HomePage implements OnInit {
                this.foundPOI.push(POIObject);
 
             }
-
-            //console.log(">>> home.ts getAllUserPOI() resp= ", resp)
-
 
 
 
@@ -200,6 +198,85 @@ export class HomePage implements OnInit {
 
   }
 
+  dialNumber(poi:place){
+
+
+      this.callNum.isCallSupported().then((result)=>{
+
+        console.log("is call supported?", result);
+
+
+
+      }).catch((error)=>{
+        console.log("error when checking dialer: ", error);
+      });
+
+
+
+      if(poi.phone != undefined) {
+
+        this.callNum.callNumber(poi.phone.toString(), true).then((result) => {
+          console.log(`call is made to, ${poi.phone.toString()}, the result is: `, result)
+        }).catch((error) => {
+          console.log("error while attempting call: ", error);
+        });
+      }
+
+
+  }
+
+  goToBrowser(poi: place){
+
+    if(poi.website!= undefined) {
+      var browser = this.inAppBrowser.create(poi.website, '_system');
+      browser.show();
+    }
+
+  }
+
 
 
 }
+
+
+
+
+
+
+/*
+
+
+
+//sorts the containers
+console.log("sorting for " + typeContainer.type);
+
+switch(this.sortingUtility.sortBy){
+
+  case("distance"):{
+
+    typeContainer.POI.sort( function(a,b){ return a.distance - b.distance} );
+    break;
+
+  }
+
+  case("rating"): {
+
+    typeContainer.POI.sort( function(a,b){  return a.rating - b.rating} );
+    break;
+
+  }
+
+  case("alphabetical"): {
+
+    typeContainer.POI.sort( function(a,b){
+      var nameA = a.name.toUpperCase();
+      var nameB = b.name.toUpperCase();
+
+      if (nameA > nameB) return -1;
+    } );
+
+
+  }
+
+
+}*/

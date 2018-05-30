@@ -11,18 +11,21 @@ constructor(private keyconst: key, private locationServ: locationService, privat
 
   readonly APIKEY:string = this.keyconst.APIKEY;
 
+  units:string="metric"; //default is metric
 
 
-  url:string = `https://maps.googleapis.com/maps/api/distancematrix/json?key=${this.APIKEY}&units=metric&origins=`; //change units to imperial for miles
+  //url:string = `https://maps.googleapis.com/maps/api/distancematrix/json?key=${this.APIKEY}&units=metric&origins=`; //change units to imperial for miles
 
   getDistance(destination:string): Promise<any> {
 
 
-    var reqUrl: string = this.url +this.locationServ.currentLocation[0] + "&destinations=" + destination;
+    var url:string = `https://maps.googleapis.com/maps/api/distancematrix/json?key=${this.APIKEY}&units=${this.units}&origins=${this.locationServ.currentLocation[0]}&destinations=${destination}`; //change units to imperial for miles
 
-    console.log(reqUrl);
+    //var reqUrl: string = this.url +this.locationServ.currentLocation[0] + "&destinations=" + destination;
 
-    return this.httpClient.get(reqUrl)
+    console.log(url);
+
+    return this.httpClient.get(url)
       .take(1)
       .toPromise();
 

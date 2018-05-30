@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>selection-page</ion-title>
+    <ion-title>Search Categories</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -21,6 +21,8 @@
 
 
         <button *ngIf="checkIfSelected(selection); else unSelected" ion-button block (click)= "removeSelection(selection)" >{{selection}}</button>
+
+        <!--TODO: remove underscores-->
 
         <ng-template #unSelected>
         <button  ion-button block outline (click)="addSelection(selection)">{{selection}}</button>

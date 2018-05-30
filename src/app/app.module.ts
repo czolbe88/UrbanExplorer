@@ -1,4 +1,4 @@
-import {NgModule, ErrorHandler, ChangeDetectorRef} from '@angular/core';
+import {NgModule, ErrorHandler} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
@@ -18,6 +18,9 @@ import {key} from "../Utility/key";
 import {distanceService} from "../services/distance";
 import {SettingsPage} from "../pages/settings/settings";
 import {photoService} from "../services/photo";
+import {sortingUtility} from "../Utility/sorting";
+import {CallNumber} from "@ionic-native/call-number";
+import {InAppBrowser} from "@ionic-native/in-app-browser";
 
 
 @NgModule({
@@ -31,7 +34,7 @@ import {photoService} from "../services/photo";
   imports: [
     BrowserModule,
     HttpClientModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
 
   ],
   bootstrap: [IonicApp],
@@ -43,12 +46,16 @@ import {photoService} from "../services/photo";
     SettingsPage
   ],
   providers: [
+
+    InAppBrowser,
+    CallNumber,
     StatusBar,
     SplashScreen,
     searchService,
     locationService,
     types,
     key,
+    sortingUtility,
     distanceService,
     photoService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}

@@ -42,8 +42,8 @@
         <!--{{typeContainer.type.toUpperCase()}} - 20+ results-->
       <!--</ion-list-header>-->
     <!--</ng-template>-->
-
-    <ion-item *ngFor="let poi of typeContainer.POI" (click)="openPlaceDetails(poi.placeid)">
+<ion-item-sliding *ngFor="let poi of typeContainer.POI">
+    <ion-item  (click)="openPlaceDetails(poi.placeid)">
       <ion-avatar item-start>
         <img src="{{poi.icon}}">
       </ion-avatar>
@@ -52,6 +52,19 @@
       <p>{{poi.distance}} {{distUnit}}</p>
     </ion-item>
 
+  <ion-item-options side="right">
+
+    <button *ngIf="poi.website != undefined" (click)="goToBrowser(poi)"  ion-button color="primary">
+      <ion-icon name="globe"></ion-icon>
+      web
+    </button>
+    <button *ngIf="poi.phone != undefined "(click)="dialNumber(poi)" ion-button color="secondary">
+      <ion-icon name="call"></ion-icon>
+      Call
+    </button>
+  </ion-item-options>
+
+</ion-item-sliding>
 
   </ion-list>
 
