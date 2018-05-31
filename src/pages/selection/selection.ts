@@ -19,14 +19,14 @@ import {place} from "../../models/place";
 export class SelectionPage implements OnInit {
 
 
-  allTypes: string[] = [];
+  allTypes: string[] = this.typesService.allTypes;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private typesService: types) {
   }
 
   ngOnInit() {
 
-    this.allTypes = this.typesService.allTypes;
+    // this.allTypes = this.typesService.allTypes;
     console.log(">>>selection.ts selected types are: ", this.typesService.selectedPOIContainer);
 
   }
@@ -34,7 +34,14 @@ export class SelectionPage implements OnInit {
 
   addSelection(i:string){
 
-    let  typeContainer: typeContainer = { type: i, POI: [] };
+    let  typeContainer: typeContainer = {
+      type: i,
+      friendlyType: i.replace(/_/g,' ') ,
+      POI: [],
+      display: true,
+      pagetoken: ""
+
+    };
     this.typesService.selectedPOIContainer.push(typeContainer);
     console.log("selected types (containers) are now: ", this.typesService.selectedPOIContainer);
 

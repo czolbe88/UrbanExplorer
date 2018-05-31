@@ -34,12 +34,12 @@
         <img src="{{POIObject.icon}}">
       </ion-avatar>
       <h2>Category</h2>
-      <p>{{POIObject.types.toString()}}</p>  <!--TODO: blasted string-->
+      <p>{{POIObject.friendlyTypes.toString()}}</p>  <!--TODO: blasted string-->
 
 
     </ion-item>
 
-    <ion-item>
+    <ion-item *ngIf="POIObject.rating">
       <h2>Rating</h2>
       <p>{{POIObject.rating}}</p>
     </ion-item>
@@ -49,14 +49,20 @@
       <p>{{POIObject.address}}</p>
     </ion-item>
 
-    <ion-item>
+    <ion-item *ngIf="POIObject.phone">
     <h2>Contact Number</h2>
     <p>{{POIObject.phone}}</p>
+<!--      <button ion-button  item-end>-->
+      <ion-icon item-end name="call" (click)="callNum(POIObject)"></ion-icon>
+<!--      </button>-->
   </ion-item>
 
-    <ion-item>
+    <ion-item *ngIf="POIObject.website">
       <h2>Website</h2>
-      <p>{{POIObject.website}}</p>
+      <p >{{POIObject.website}}</p>
+<!--      <button ion-button  item-end>-->
+      <ion-icon item-end name="globe" (click)="openBrowser(POIObject)"></ion-icon>
+<!--      </button>-->
     </ion-item>
 
     <ion-item *ngIf = "POIObject.opening_hours">
@@ -72,7 +78,7 @@
     <ion-row>
       <ion-col col-3 *ngFor="let urlString of POIObject.photoUrlContainer">
 
-        <img src="{{urlString}}"> <!--TODO: open overlay showing large image-->
+        <img  src="{{urlString}}" #fullScrnImage (click)="openFullScreen(fullScrnImage)"> <!--TODO: open overlay showing large image-->
 
       </ion-col>
 

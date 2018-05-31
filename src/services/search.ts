@@ -20,8 +20,9 @@ range: string = "1000";
 
 url: string = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=${this.keyConst.APIKEY}&radius=`;
 
-url2: string = `https://maps.googleapis.com/maps/api/place/details/json?key=${this.keyConst.APIKEY}&placeid=`;
+detailsUrl: string = `https://maps.googleapis.com/maps/api/place/details/json?key=${this.keyConst.APIKEY}&placeid=`;
 
+pageTokenUrl: string = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=${this.keyConst.APIKEY}&pagetoken=`
 
 rankby:string="prominence";
 
@@ -62,11 +63,22 @@ console.log(url);
 
 getPlaceDetails(placeid: string): Promise<any>{
 
-  return this.httpClient.get(this.url2 + placeid )
+  return this.httpClient.get(this.detailsUrl + placeid )
     .take(1)
     .toPromise()
 
 
+
+}
+
+
+getAdditional(token: string): Promise<any>{
+
+  //console.log("!!!!!!!!! URL called by getAdditional is: ", this.pageTokenUrl + token);
+
+  return this.httpClient.get(this.pageTokenUrl + token)
+    .take(1)
+    .toPromise()
 
 }
 

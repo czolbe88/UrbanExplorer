@@ -14,11 +14,14 @@ export interface place{
   opening_hours: any;
   rating: number;
   types: string[];
+  friendlyTypes: string[];
   website: string;
 
   //photo
   photoRefContainer: string[];
   photoUrlContainer: string[];
+
+
 
 
 

@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
 import {place} from "../../models/place";
-
+import {ImageViewerController} from "ionic-img-viewer";
+import {nativeFunctions} from "../../Utility/nativeFunctions";
 
 /**
  * Generated class for the PlaceDetailsPage page.
@@ -17,7 +18,7 @@ import {place} from "../../models/place";
 })
 export class PlaceDetailsPage {
 
-  constructor(private navCtrl: NavController, private navParams: NavParams, private viewCtrl: ViewController) {
+  constructor(private nativeFunctions: nativeFunctions,private imageViewerCtrl:ImageViewerController, private navCtrl: NavController, private navParams: NavParams, private viewCtrl: ViewController) {
   }
 
   POIObject: place =  this.navParams.get('POI');
@@ -32,6 +33,26 @@ export class PlaceDetailsPage {
   dismiss(){
 
     this.viewCtrl.dismiss();
+
+  }
+
+
+  openFullScreen(myImage) {
+    const imageViewer = this.imageViewerCtrl.create(myImage);
+    imageViewer.present();
+
+/*    setTimeout(() => imageViewer.dismiss(), 1000);
+    imageViewer.onDidDismiss(() => alert('Viewer dismissed'));*/
+  }
+
+  callNum(poi:place){
+
+    this.nativeFunctions.dialNumber(poi);
+
+  }
+  openBrowser(poi:place){
+
+    this.nativeFunctions.goToBrowser(poi);
 
   }
 

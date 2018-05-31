@@ -21,6 +21,8 @@ import {photoService} from "../services/photo";
 import {sortingUtility} from "../Utility/sorting";
 import {CallNumber} from "@ionic-native/call-number";
 import {InAppBrowser} from "@ionic-native/in-app-browser";
+import {IonicImageViewerModule} from "ionic-img-viewer";
+import {nativeFunctions} from "../Utility/nativeFunctions";
 
 
 @NgModule({
@@ -35,6 +37,7 @@ import {InAppBrowser} from "@ionic-native/in-app-browser";
     BrowserModule,
     HttpClientModule,
     IonicModule.forRoot(MyApp),
+    IonicImageViewerModule
 
   ],
   bootstrap: [IonicApp],
@@ -47,6 +50,7 @@ import {InAppBrowser} from "@ionic-native/in-app-browser";
   ],
   providers: [
 
+    nativeFunctions,
     InAppBrowser,
     CallNumber,
     StatusBar,

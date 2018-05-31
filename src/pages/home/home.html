@@ -13,6 +13,7 @@
 
   <p>Current location is {{currentLocation[0]}}</p>
   <p>Vicinity of {{currentLocation[1]}}</p>
+  <button style="margin-bottom: 20px;" ion-button (click) = "getAllUserPOI()">Refresh</button>
 
 
   <!--<ion-list>-->
@@ -31,8 +32,8 @@
   <!--</ion-list>-->
 
   <ion-list *ngFor="let typeContainer of selectedPOIContainer">
-    <ion-list-header *ngIf=" typeContainer.POI.length>0" >
-      {{typeContainer.type.toUpperCase()}} - {{typeContainer.POI.length}} results
+    <ion-list-header *ngIf=" typeContainer.POI.length>0" (click)="toggleList(typeContainer)">
+      {{typeContainer.friendlyType.toUpperCase()}} - {{typeContainer.POI.length}} results
     </ion-list-header>
 
 
@@ -42,8 +43,8 @@
         <!--{{typeContainer.type.toUpperCase()}} - 20+ results-->
       <!--</ion-list-header>-->
     <!--</ng-template>-->
-<ion-item-sliding *ngFor="let poi of typeContainer.POI">
-    <ion-item  (click)="openPlaceDetails(poi.placeid)">
+<ion-item-sliding *ngFor="let poi of typeContainer.POI" >
+    <ion-item *ngIf="typeContainer.display"  (click)="openPlaceDetails(poi.placeid)">
       <ion-avatar item-start>
         <img src="{{poi.icon}}">
       </ion-avatar>
@@ -66,10 +67,12 @@
 
 </ion-item-sliding>
 
+    <button ion-button *ngIf="typeContainer.display && typeContainer.POI.length>0" (click)="loadMore(typeContainer)">Load more</button>
+
   </ion-list>
 
 
-  <button ion-button (click) = "getAllUserPOI()">Refresh</button>
+
 
 
 

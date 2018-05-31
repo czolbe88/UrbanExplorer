@@ -12,8 +12,7 @@ import {photoService} from "../../services/photo";
 import {typeContainer} from "../../models/typeContainer";
 import {TabsPage} from "../tabs/tabs";
 import {sortingUtility} from "../../Utility/sorting";
-import {CallNumber} from "@ionic-native/call-number";
-import { InAppBrowser } from '@ionic-native/in-app-browser';
+import {nativeFunctions} from "../../Utility/nativeFunctions";
 
 @Component({
   selector: 'page-home',
@@ -21,7 +20,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 })
 export class HomePage implements OnInit {
 
-  constructor(private inAppBrowser: InAppBrowser, private callNum: CallNumber, private searchServ: searchService, private typeServ: types, private locationServ: locationService, private sortingUtility: sortingUtility,
+  constructor(private nativeFunctions: nativeFunctions, private searchServ: searchService, private typeServ: types, private locationServ: locationService, private sortingUtility: sortingUtility,
               private distanceServ: distanceService, private modal: ModalController, private loadingCtrl: LoadingController, private photoServ: photoService) {
 
   }
@@ -35,11 +34,24 @@ export class HomePage implements OnInit {
   selectedPOIContainer: typeContainer[] = this.typeServ.selectedPOIContainer;
 
   //container for ALL POI
-  foundPOI:place[] = [];
+  foundPOI: place[] = [];
 
-  distUnit: string ="";
+  distUnit: string = "";
 
-   rootPage: any = TabsPage;
+  rootPage: any = TabsPage;
+
+
+
+  toggleList(typeCon: typeContainer){
+
+    if(typeCon.display){
+      typeCon.display = false;
+    }
+    else{
+      typeCon.display = true;
+    }
+
+  }
 
 
 //REFRESH BUTTON
@@ -73,6 +85,9 @@ export class HomePage implements OnInit {
 
             var POIList = resp['results'];
 
+            typeContainer.pagetoken = resp['next_page_token'];
+            console.log(">>>>>>>>>>>typeContainer object", typeContainer);
+
 
 
             for (let POI of POIList) {
@@ -80,34 +95,44 @@ export class HomePage implements OnInit {
               //console.log("POI", POI);
 
 
-                let POIObject:place = {
+              let POIObject: place = {
 
                 placeid: POI['place_id'],
                 icon: POI['icon'],
                 name: POI['name'],
                 //open:  POI['opening_hours']['open_now'],
                 location: POI['geometry']['location'],
-                  //details
-                  address: null,
-                  phone: null,
-                  opening_hours: null,
-                  rating: null,
-                  website: null,
+                //details
+                address: null,
+                phone: null,
+                opening_hours: null,
+                rating: null,
+                website: null,
                 types: POI['types'],
+                friendlyTypes : [] ,
 
-                  //photo
-                  photoRefContainer: [] ,
-                  photoUrlContainer: [],
+                //photo
+                photoRefContainer: [],
+                photoUrlContainer: [],
 
-                  //distance
-                  distance: null
+                //distance
+                distance: null,
+
 
 
               }
 
+
+              for(let type of POIObject.types){
+
+                var newType = type.replace(/_/g," ");
+                POIObject.friendlyTypes.push(newType);
+
+              }
+
               this.searchServ.getPlaceDetails(POIObject.placeid)
-                .then((resp)=>{
-                  console.log("getPlaceDetails resp: ", resp);
+                .then((resp) => {
+                  //console.log("getPlaceDetails resp: ", resp);
                   POIObject.rating = resp['result']['rating'];
                   POIObject.website = resp['result']['website'];
                   POIObject.address = resp['result']['formatted_address'];
@@ -118,7 +143,7 @@ export class HomePage implements OnInit {
 
                   console.log("POIObject is: ", POIObject);
 
-                  if(POIObject.photoRefContainer.length > 0) {
+                  if (POIObject.photoRefContainer.length > 0) {
 
                     for (let photoref of POIObject.photoRefContainer) {
 
@@ -135,15 +160,15 @@ export class HomePage implements OnInit {
                   }
 
                 })
-                .catch((error)=>{
+                .catch((error) => {
                   //console.log(">>> getPlaceDetails error: ", error); //SUPPRESSED!!!! TODO: HANDLE THIS PROPERLY!
                 })
 
 
-              var POIdestination = POIObject.location['lat'].toString() +"," +  POIObject.location['lng'].toString();
-                console.log("POIDest is: ", POIdestination);
+              var POIdestination = POIObject.location['lat'].toString() + "," + POIObject.location['lng'].toString();
+              //console.log("POIDest is: ", POIdestination);
 
-              this.distanceServ.getDistance(POIdestination).then((resp)=>{
+              this.distanceServ.getDistance(POIdestination).then((resp) => {
 
                 //console.log(">>> distance matrix service is:", resp);
                 var distString: string = resp['rows'][0]['elements'][0]['distance']['text'];
@@ -153,8 +178,8 @@ export class HomePage implements OnInit {
                 this.distUnit = distStringArray[1];
                 POIObject.distance = parseFloat(distStringArray[0]);
                 //POIObject.distance = resp['rows'][0]['elements'][0]['distance']['text'];
-                console.log("POIObject distance: ", POIObject.distance);
-              }).catch((error)=>{
+                //console.log("POIObject distance: ", POIObject.distance);
+              }).catch((error) => {
                 console.log(">>>getDistance error: ", error);
               })
 
@@ -163,16 +188,17 @@ export class HomePage implements OnInit {
 
               //push into both containers
               typeContainer.POI.push(POIObject);
-               this.foundPOI.push(POIObject);
+              this.foundPOI.push(POIObject);
 
             }
-
 
 
           }
 
 
-          else if (resp['status'] != "OK"){ console.log(`>>>WARNING>>> search for type ${type}: `, resp['status'])}
+          else if (resp['status'] != "OK") {
+            console.log(`>>>WARNING>>> search for type ${type}: `, resp['status'])
+          }
         }
       ).catch((error) => {
         console.log(error);
@@ -187,60 +213,47 @@ export class HomePage implements OnInit {
   }
 
   //open modal
-  openPlaceDetails(placeId: string){
+  openPlaceDetails(placeId: string) {
 
-    var POIObject: place = this.foundPOI.find(x=> x.placeid == placeId);
+    var POIObject: place = this.foundPOI.find(x => x.placeid == placeId);
 
-    const myModal = this.modal.create('PlaceDetailsPage', { POI: POIObject});
+    const myModal = this.modal.create('PlaceDetailsPage', {POI: POIObject});
 
     myModal.present();
 
 
   }
 
-  dialNumber(poi:place){
+  loadMore(t: typeContainer){
 
+    this.searchServ.getAdditional(t.pagetoken).then(resp=>{
 
-      this.callNum.isCallSupported().then((result)=>{
+      console.log(resp);
 
-        console.log("is call supported?", result);
+    }).catch(error=>{
+      console.log(">>>ERROR: loadMore() in home.ts: ", error);
+    })
 
-
-
-      }).catch((error)=>{
-        console.log("error when checking dialer: ", error);
-      });
-
-
-
-      if(poi.phone != undefined) {
-
-        this.callNum.callNumber(poi.phone.toString(), true).then((result) => {
-          console.log(`call is made to, ${poi.phone.toString()}, the result is: `, result)
-        }).catch((error) => {
-          console.log("error while attempting call: ", error);
-        });
-      }
 
 
   }
 
-  goToBrowser(poi: place){
 
-    if(poi.website!= undefined) {
-      var browser = this.inAppBrowser.create(poi.website, '_system');
-      browser.show();
-    }
+  //native functions
+  dialNumber(poi: place) {
+
+    this.nativeFunctions.dialNumber(poi);
 
   }
 
+  goToBrowser(poi: place) {
+
+    this.nativeFunctions.goToBrowser(poi);
+
+  }
 
 
 }
-
-
-
-
 
 
 /*
