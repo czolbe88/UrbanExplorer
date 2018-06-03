@@ -34,7 +34,7 @@
         <img src="{{POIObject.icon}}">
       </ion-avatar>
       <h2>Category</h2>
-      <p>{{POIObject.friendlyTypes.toString()}}</p>  <!--TODO: blasted string-->
+      <p text-capitalize >{{POIObject.friendlyTypes.toString()}}</p>  <!--TODO: blasted string-->
 
 
     </ion-item>
@@ -46,7 +46,7 @@
 
     <ion-item>
       <h2>Address</h2>
-      <p>{{POIObject.address}}</p>
+      <p text-wrap>{{POIObject.address}}</p>
     </ion-item>
 
     <ion-item *ngIf="POIObject.phone">
@@ -59,7 +59,7 @@
 
     <ion-item *ngIf="POIObject.website">
       <h2>Website</h2>
-      <p >{{POIObject.website}}</p>
+      <p text-wrap >{{POIObject.website}}</p>
 <!--      <button ion-button  item-end>-->
       <ion-icon item-end name="globe" (click)="openBrowser(POIObject)"></ion-icon>
 <!--      </button>-->

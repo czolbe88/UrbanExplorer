@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -10,11 +10,12 @@ import {distanceService} from "../services/distance";
 import {types} from "../services/types";
 import {typeContainer} from "../models/typeContainer";
 import {sortingUtility} from "../Utility/sorting";
+import {AppPreferences} from "@ionic-native/app-preferences";
 
 @Component({
   templateUrl: 'app.html'
 })
-export class MyApp {
+export class MyApp implements OnInit{
   rootPage:any = TabsPage;
 
   selectedPOIContainer: typeContainer[] = this.typeSvc.selectedPOIContainer;
@@ -22,13 +23,13 @@ export class MyApp {
 
 
 //why does adding the private modifier make a difference?
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, locSvc: locationService,private sortingUtility: sortingUtility, private searchSvc: searchService, private distSvc: distanceService, private typeSvc: types) {
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private locSvc: locationService,private appPref: AppPreferences, private sortingUtility: sortingUtility, private searchSvc: searchService, private distSvc: distanceService, private typeSvc: types) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
-      locSvc.watchLocation();
+
       //console.log("current range is: ", searchSvc.getRange());
 
 
@@ -36,6 +37,14 @@ export class MyApp {
 
 
     });
+  }
+
+  ngOnInit(){
+
+    this.locSvc.watchLocation();
+
+
+
   }
 
   range:number = parseInt(this.searchSvc.range);
@@ -102,10 +111,14 @@ export class MyApp {
 
           container.POI.sort( function(a,b){
 
-            var nameA = a.name[0].toUpperCase();
-            var nameB = b.name[0].toUpperCase();
+            var nameA = a.name.toUpperCase();
+            var nameB = b.name.toUpperCase();
 
-            if(nameA > nameB) return -1;
+            if(nameA < nameB) return -1;
+
+            else if(nameA > nameB) return 1;
+
+            else return 0;
 
           });
 

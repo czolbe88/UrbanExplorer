@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage} from 'ionic-angular';
 import{types} from '../../services/types';
 import {typeContainer} from "../../models/typeContainer";
-import {place} from "../../models/place";
+import {AppPreferences} from "@ionic-native/app-preferences";
 
 /**
  * Generated class for the SelectionPage page.
@@ -21,7 +21,7 @@ export class SelectionPage implements OnInit {
 
   allTypes: string[] = this.typesService.allTypes;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private typesService: types) {
+  constructor(private appPreference: AppPreferences,  private typesService: types) {
   }
 
   ngOnInit() {
@@ -42,6 +42,19 @@ export class SelectionPage implements OnInit {
       pagetoken: ""
 
     };
+
+    var storedTypePref: typeContainer[] = [];
+
+    this.appPreference.fetch("SEARCHPARAMETERS", "TYPES").then(resp=>{
+
+      console.log(">>>STORED TYPE PREF: ", resp);
+      storedTypePref = resp;
+
+    }).catch(error=>{console.log(error)})
+
+    storedTypePref.push(typeContainer);
+
+    this.appPreference.store("SEARCHPARAMETERS", "TYPES", storedTypePref);
     this.typesService.selectedPOIContainer.push(typeContainer);
     console.log("selected types (containers) are now: ", this.typesService.selectedPOIContainer);
 
@@ -50,8 +63,13 @@ export class SelectionPage implements OnInit {
 
   removeSelection(i:string){
 
+
     var indexNo: number = this.typesService.selectedPOIContainer.findIndex(x=> x.type == i);
     this.typesService.selectedPOIContainer.splice(indexNo, 1);
+
+
+
+
     console.log("selected types (containers) are now: ", this.typesService.selectedPOIContainer);
 
 

@@ -23,6 +23,7 @@ import {CallNumber} from "@ionic-native/call-number";
 import {InAppBrowser} from "@ionic-native/in-app-browser";
 import {IonicImageViewerModule} from "ionic-img-viewer";
 import {nativeFunctions} from "../Utility/nativeFunctions";
+import {AppPreferences} from "@ionic-native/app-preferences";
 
 
 @NgModule({
@@ -50,6 +51,7 @@ import {nativeFunctions} from "../Utility/nativeFunctions";
   ],
   providers: [
 
+    AppPreferences,
     nativeFunctions,
     InAppBrowser,
     CallNumber,

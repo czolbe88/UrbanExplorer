@@ -36,8 +36,6 @@
       {{typeContainer.friendlyType.toUpperCase()}} - {{typeContainer.POI.length}} results
     </ion-list-header>
 
-
-
     <!--<ng-template #MoreThanTwentyResults >-->
       <!--<ion-list-header *ngIf= "typeContainer.POI.length>0" >-->
         <!--{{typeContainer.type.toUpperCase()}} - 20+ results-->
@@ -49,7 +47,7 @@
         <img src="{{poi.icon}}">
       </ion-avatar>
       <h2>{{poi.name}}</h2>
-      <h3>{{poi.address}}</h3>
+      <h3 text-wrap>{{poi.address}}</h3>
       <p>{{poi.distance}} {{distUnit}}</p>
     </ion-item>
 
@@ -67,7 +65,10 @@
 
 </ion-item-sliding>
 
-    <button ion-button *ngIf="typeContainer.display && typeContainer.POI.length>0" (click)="loadMore(typeContainer)">Load more</button>
+    <!--TODO: button makes rows unequally spaced-->
+<ion-row  justify-content-center>
+    <button ion-button *ngIf="(typeContainer.display && typeContainer.POI.length==20) && typeContainer.pagetoken != undefined" (click)="loadMore(typeContainer)">Load more</button>
+</ion-row>
 
   </ion-list>
 

@@ -13,19 +13,19 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content >
 
-  <ion-grid>
-    <ion-row>
-      <ion-col col-6 *ngFor="let selection of allTypes">
+  <ion-grid >
+    <ion-row >
+      <ion-col col-4 *ngFor="let selection of allTypes">
 
 
-        <button *ngIf="checkIfSelected(selection); else unSelected" ion-button block (click)= "removeSelection(selection)" >{{selection}}</button>
+        <button class="square"  *ngIf="checkIfSelected(selection); else unSelected" ion-button block (click)= "removeSelection(selection)" >{{selection}}</button>
 
         <!--TODO: remove underscores-->
 
         <ng-template #unSelected>
-        <button  ion-button block outline (click)="addSelection(selection)">{{selection}}</button>
+          <button class="square" ion-button outline block (click)="addSelection(selection)">{{selection}}</button>
         </ng-template>
 
       </ion-col>

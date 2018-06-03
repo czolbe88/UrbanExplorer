@@ -1,8 +1,17 @@
 import {Injectable} from "@angular/core";
 import {typeContainer} from "../models/typeContainer";
+import {AppPreferences} from "@ionic-native/app-preferences";
 
 @Injectable()
 export class types{
+
+  constructor(private appPref: AppPreferences){
+
+
+
+  }
+
+
 
   readonly allTypes: string[] =
 
