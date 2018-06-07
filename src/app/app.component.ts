@@ -16,6 +16,8 @@ import {AppPreferences} from "@ionic-native/app-preferences";
   templateUrl: 'app.html'
 })
 export class MyApp implements OnInit{
+
+
   rootPage:any = TabsPage;
 
   selectedPOIContainer: typeContainer[] = this.typeSvc.selectedPOIContainer;
@@ -42,6 +44,17 @@ export class MyApp implements OnInit{
   ngOnInit(){
 
     this.locSvc.watchLocation();
+
+
+    this.appPref.fetch("SEARCHPARAMETERS", "TYPES").then(resp=>{
+
+      //resp returns a list containing typeContainers
+
+      console.log("FETCHED STORED PREF : ", resp);
+      this.typeSvc.selectedPOIContainer = resp;
+      //console.log(">>>>>>>>typeSvc.selectedPOIContainer is now", this.typeSvc.selectedPOIContainer);
+
+    }).catch(error=>{console.log(error)})
 
 
 
@@ -135,16 +148,6 @@ export class MyApp implements OnInit{
 
 
     }
-
-    for( let container of this.typeSvc.selectedPOIContainer) {
-
-
-
-
-    }
-
-
-
 
 
 

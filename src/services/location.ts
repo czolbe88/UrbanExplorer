@@ -1,15 +1,22 @@
-import {Injectable} from "@angular/core";
+import {EventEmitter, Injectable, Output} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {key} from "../Utility/key";
 
 
 @Injectable()
-export class locationService{
+export class locationService {
 
   constructor(private httpClient: HttpClient, private keyConst: key){}
+
+@Output()
+  locationChanged = new EventEmitter<{newLoc: string;}>()
+
+
   currentLocation: string[] = new Array();
 
   url: string = `https://maps.googleapis.com/maps/api/geocode/json?key=${this.keyConst.APIKEY}&latlng=`
+
+
 
 
 
@@ -36,11 +43,12 @@ export class locationService{
       window.navigator.geolocation.watchPosition(
         position => {
           this.currentLocation[0] = position.coords.latitude.toString() + "," + position.coords.longitude.toString();
-          console.log(">>>location.ts current location is: ", this.currentLocation);
+          this.locationChanged.emit({newLoc: this.currentLocation[0] }); //EVENT EMITTED
+          //console.log(">>>location.ts current location is: ", this.currentLocation);
 
           this.reverseGeocode(this.url).then(
             (resp)=>{
-              console.log(resp['results'][0]['formatted_address']);
+              console.log("Current location: ", resp['results'][0]['formatted_address']);
 
               this.currentLocation[1] = resp['results'][0]['formatted_address'];
             }

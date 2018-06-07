@@ -1,15 +1,13 @@
 import {HttpClient} from '@angular/common/http';
-import{types} from './types';
 import {locationService} from "./location";
 import { Injectable, OnInit} from "@angular/core";
-import {Observable} from "rxjs/Observable";
 import {key} from "../Utility/key";
 
 
 @Injectable()
 export class searchService implements OnInit{
 
-constructor(private locationSvc:locationService, private httpClient: HttpClient, private typeService: types, private keyConst: key){};
+constructor(private locationSvc:locationService, private httpClient: HttpClient, private keyConst: key){};
 
 ngOnInit(){
 

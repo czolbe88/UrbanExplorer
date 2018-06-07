@@ -6,7 +6,6 @@ import 'rxjs/add/operator/take';
 import {place} from "../../models/place";
 import {distanceService} from "../../services/distance";
 import {ModalController} from "ionic-angular";
-import {PlaceDetailsPage} from "../place-details/place-details";
 import {LoadingController} from "ionic-angular";
 import {photoService} from "../../services/photo";
 import {typeContainer} from "../../models/typeContainer";
@@ -26,6 +25,13 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
+
+    // this.locationServ.locationChanged.subscribe(resp=>{
+    //   console.log("indeed the location has changed");
+    //
+    //   this.getAllUserPOI(); //DEPLOY FREQUENCY 5 MINS SO THAT DATA IS NOT OVERUSED!
+    //
+    // });
   }
 
   currentLocation: string[] = this.locationServ.currentLocation;
@@ -151,6 +157,10 @@ export class HomePage implements OnInit {
     if (resp['status'] == "OK") {
 
       var POIList = resp['results'];
+      console.log(">>>>POIList is:", POIList, POIList.length);
+      var POIListLen = POIList.length;
+
+
 
       typeContainer.pagetoken = resp['next_page_token'];
       console.log(">>>>>>>>>>>typeContainer object", typeContainer);
@@ -206,7 +216,21 @@ export class HomePage implements OnInit {
             POIObject.photoRefContainer = resp['result']['photos'];
 
 
-            console.log("POIObject is: ", POIObject);
+            //console.log("POIObject is: ", POIObject);
+
+            // CHECK FOR LAST ITEM TODO: TEMP SOLUTION ONLY!
+            POIListLen --;
+            //console.log(POIListLen);
+
+            //if this is the last object to have its details updates. APPLY THE SORT!
+            if (POIListLen == 0 ){
+
+              //sort
+              console.log("SORT NOW!");
+              this.sortingUtility.sortContainer(typeContainer);
+
+            }
+            //END OF CHECK FOR LAST ITEM
 
             if (POIObject.photoRefContainer.length > 0) {
 
@@ -223,6 +247,10 @@ export class HomePage implements OnInit {
 
               }
             }
+
+
+
+
 
           })
           .catch((error) => {
@@ -255,6 +283,8 @@ export class HomePage implements OnInit {
         typeContainer.POI.push(POIObject);
         this.foundPOI.push(POIObject);
 
+
+
       }
 
 
@@ -274,40 +304,8 @@ export class HomePage implements OnInit {
 }
 
 
-/*
 
 
 
-//sorts the containers
-console.log("sorting for " + typeContainer.type);
-
-switch(this.sortingUtility.sortBy){
-
-  case("distance"):{
-
-    typeContainer.POI.sort( function(a,b){ return a.distance - b.distance} );
-    break;
-
-  }
-
-  case("rating"): {
-
-    typeContainer.POI.sort( function(a,b){  return a.rating - b.rating} );
-    break;
-
-  }
-
-  case("alphabetical"): {
-
-    typeContainer.POI.sort( function(a,b){
-      var nameA = a.name.toUpperCase();
-      var nameB = b.name.toUpperCase();
-
-      if (nameA > nameB) return -1;
-    } );
 
 
-  }
-
-
-}*/

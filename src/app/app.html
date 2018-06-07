@@ -18,7 +18,7 @@
         <ion-list-header style="margin-bottom: 0px;">Range
         <ion-badge item-end>{{range}}</ion-badge>
         </ion-list-header>
-        <ion-range min="0" max="10000" step="50"   [(ngModel)]="range" (ionChange)="updateRange($event)">
+        <ion-range  min="0" max="10000" step="50"   [(ngModel)]="range" (ionChange)="updateRange($event)">
           <ion-icon range-left small name="walk"></ion-icon>
           <ion-icon range-right name="car"></ion-icon>
         </ion-range>
@@ -29,7 +29,7 @@
       <!-- units
       -->
 
-      <ion-list radio-group (ionChange)="updateUnits($event)">
+      <ion-list [disabled]="true" radio-group (ionChange)="updateUnits($event)">
         <ion-list-header style="margin-bottom: 0px;">
           Units
         </ion-list-header>
@@ -51,7 +51,7 @@
       <!--sort by-->
 
 
-      <ion-list radio-group (ionChange)="updateSortBy($event)">
+      <ion-list [disabled]="true" radio-group (ionChange)="updateSortBy($event)">
         <ion-list-header style="margin-bottom: 0px;">
           Sort by
         </ion-list-header>

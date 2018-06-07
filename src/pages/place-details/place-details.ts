@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
+import { IonicPage, NavParams, ViewController} from 'ionic-angular';
 import {place} from "../../models/place";
 import {ImageViewerController} from "ionic-img-viewer";
 import {nativeFunctions} from "../../Utility/nativeFunctions";
@@ -18,7 +18,7 @@ import {nativeFunctions} from "../../Utility/nativeFunctions";
 })
 export class PlaceDetailsPage {
 
-  constructor(private nativeFunctions: nativeFunctions,private imageViewerCtrl:ImageViewerController, private navCtrl: NavController, private navParams: NavParams, private viewCtrl: ViewController) {
+  constructor(private nativeFunctions: nativeFunctions,private imageViewerCtrl:ImageViewerController, private navParams: NavParams, private viewCtrl: ViewController) {
   }
 
   POIObject: place =  this.navParams.get('POI');

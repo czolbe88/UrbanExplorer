@@ -43,18 +43,8 @@ export class SelectionPage implements OnInit {
 
     };
 
-    var storedTypePref: typeContainer[] = [];
 
-    this.appPreference.fetch("SEARCHPARAMETERS", "TYPES").then(resp=>{
 
-      console.log(">>>STORED TYPE PREF: ", resp);
-      storedTypePref = resp;
-
-    }).catch(error=>{console.log(error)})
-
-    storedTypePref.push(typeContainer);
-
-    this.appPreference.store("SEARCHPARAMETERS", "TYPES", storedTypePref);
     this.typesService.selectedPOIContainer.push(typeContainer);
     console.log("selected types (containers) are now: ", this.typesService.selectedPOIContainer);
 
@@ -87,6 +77,14 @@ export class SelectionPage implements OnInit {
 
 
 
+  }
+
+  //save to preferences when navigating away from selection page
+  ionViewWillLeave() {
+
+
+    this.appPreference.store("SEARCHPARAMETERS", "TYPES", this.typesService.selectedPOIContainer);
+    console.log("LEFT selection.html view and saved preferences!");
   }
 
 

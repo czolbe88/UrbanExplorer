@@ -5,7 +5,7 @@
   Ionic pages and navigation.
 -->
 
-
+<!--TODO: text-wrap for header-->
 <ion-header>
   <ion-toolbar>
     <ion-title>
@@ -34,7 +34,7 @@
         <img src="{{POIObject.icon}}">
       </ion-avatar>
       <h2>Category</h2>
-      <p text-capitalize >{{POIObject.friendlyTypes.toString()}}</p>  <!--TODO: blasted string-->
+      <p text-capitalize text-wrap >{{POIObject.friendlyTypes.toString()}}</p>  <!--TODO: blasted string-->
 
 
     </ion-item>
