@@ -20,6 +20,7 @@ export class SelectionPage implements OnInit {
 
 
   allTypes: string[] = this.typesService.allTypes;
+  friendlyTypes: string[] = this.typesService.friendlyTypes;
 
   constructor(private appPreference: AppPreferences,  private typesService: types) {
   }
@@ -31,12 +32,29 @@ export class SelectionPage implements OnInit {
 
   }
 
+  toggleSelection(selection: string, event){
+
+
+    if(event.checked){
+
+      this.addSelection(selection);
+
+    }
+    else{
+
+      this.removeSelection(selection);
+
+    }
+    console.log(event.checked);
+
+  }
+
 
   addSelection(i:string){
 
     let  typeContainer: typeContainer = {
-      type: i,
-      friendlyType: i.replace(/_/g,' ') ,
+      type: i.replace(/ /g, '_'),
+      friendlyType: i,
       POI: [],
       display: true,
       pagetoken: ""
@@ -54,7 +72,7 @@ export class SelectionPage implements OnInit {
   removeSelection(i:string){
 
 
-    var indexNo: number = this.typesService.selectedPOIContainer.findIndex(x=> x.type == i);
+    var indexNo: number = this.typesService.selectedPOIContainer.findIndex(x=> x.friendlyType == i);
     this.typesService.selectedPOIContainer.splice(indexNo, 1);
 
 
@@ -70,7 +88,7 @@ export class SelectionPage implements OnInit {
     if( this.typesService.selectedPOIContainer != null) {
 
 
-      var index = this.typesService.selectedPOIContainer.findIndex(x => x.type == i);
+      var index = this.typesService.selectedPOIContainer.findIndex(x => x.friendlyType == i);
       if (index > -1) {
         return true;
       }

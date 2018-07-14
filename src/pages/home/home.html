@@ -11,72 +11,80 @@
 
 <ion-content padding>
 
+
   <p>Current location is {{currentLocation[0]}}</p>
   <p>Vicinity of {{currentLocation[1]}}</p>
-  <button style="margin-bottom: 20px;" ion-button (click) = "getAllUserPOI()">Refresh</button>
+  <button style="margin-bottom: 20px;" ion-button (click)="getAllUserPOI()">Refresh</button>
 
 
   <!--<ion-list>-->
 
-    <!--<ion-item *ngFor="let poi of foundPOI" (click)="openPlaceDetails(poi.placeid)">-->
-      <!--<ion-avatar item-start>-->
-        <!--<img src="{{poi.icon}}">-->
-      <!--</ion-avatar>-->
-      <!--<h2>{{poi.name}}</h2>-->
-      <!--<h3>{{poi.address}}</h3>-->
-      <!--<p>{{poi.distance}} {{distUnit}}</p>-->
-    <!--</ion-item>-->
-
+  <!--<ion-item *ngFor="let poi of foundPOI" (click)="openPlaceDetails(poi.placeid)">-->
+  <!--<ion-avatar item-start>-->
+  <!--<img src="{{poi.icon}}">-->
+  <!--</ion-avatar>-->
+  <!--<h2>{{poi.name}}</h2>-->
+  <!--<h3>{{poi.address}}</h3>-->
+  <!--<p>{{poi.distance}} {{distUnit}}</p>-->
+  <!--</ion-item>-->
 
 
   <!--</ion-list>-->
 
   <p *ngIf="errorEncountered">{{errorMessage}}</p>
+  <ion-card *ngFor="let typeContainer of selectedPOIContainer"  >
 
-  <ion-list *ngFor="let typeContainer of selectedPOIContainer">
-    <ion-list-header *ngIf=" typeContainer.POI.length>0" (click)="toggleList(typeContainer)">
-      {{typeContainer.friendlyType.toUpperCase()}} - {{typeContainer.POI.length}} results
-    </ion-list-header>
+
+    <ion-card-header *ngIf=" typeContainer.POI.length>0"
+    (click)="toggleList(typeContainer)">
+    {{typeContainer.friendlyType.toUpperCase()}} - {{typeContainer.POI.length}} results
+    </ion-card-header>
+
+
 
     <!--<ng-template #MoreThanTwentyResults >-->
-      <!--<ion-list-header *ngIf= "typeContainer.POI.length>0" >-->
-        <!--{{typeContainer.type.toUpperCase()}} - 20+ results-->
-      <!--</ion-list-header>-->
+    <!--<ion-list-header *ngIf= "typeContainer.POI.length>0" >-->
+    <!--{{typeContainer.type.toUpperCase()}} - 20+ results-->
+    <!--</ion-list-header>-->
     <!--</ng-template>-->
-<ion-item-sliding *ngFor="let poi of typeContainer.POI" >
-    <ion-item *ngIf="typeContainer.display"  (click)="openPlaceDetails(poi.placeid)">
-      <ion-avatar item-start>
-        <img src="{{poi.icon}}">
-      </ion-avatar>
-      <h2>{{poi.name}}</h2>
-      <h3 text-wrap>{{poi.address}}</h3>
-      <p>{{poi.distance}} {{distUnit[0]}}</p>
-    </ion-item>
 
-  <ion-item-options side="right">
+    <ion-list *ngIf=" typeContainer.POI.length>0">
+    <ion-item-sliding *ngFor="let poi of typeContainer.POI">
+      <ion-item *ngIf="typeContainer.display" (click)="openPlaceDetails(poi.placeid)">
+        <ion-avatar item-start>
+          <img src="{{poi.icon}}">
+        </ion-avatar>
+        <h2>{{poi.name}}</h2>
+        <h3 text-wrap>{{poi.address}}</h3>
+        <p>{{poi.distance}} {{distUnit[0]}}</p>
+      </ion-item>
 
-    <button  *ngIf="poi.website != undefined" (click)="goToBrowser(poi)"  ion-button color="primary">
-      <ion-icon name="globe"></ion-icon>
-      web
-    </button>
-    <button *ngIf="poi.phone != undefined "(click)="dialNumber(poi)" ion-button color="secondary">
-      <ion-icon name="call"></ion-icon>
-      Call
-    </button>
-  </ion-item-options>
+      <ion-item-options side="right">
 
-</ion-item-sliding>
+        <button *ngIf="poi.website != undefined" (click)="goToBrowser(poi)" ion-button color="primary">
+          <ion-icon name="globe"></ion-icon>
+          web
+        </button>
+        <button *ngIf="poi.phone != undefined " (click)="dialNumber(poi)" ion-button color="secondary">
+          <ion-icon name="call"></ion-icon>
+          Call
+        </button>
+      </ion-item-options>
+
+    </ion-item-sliding>
 
     <!--TODO: button makes rows unequally spaced-->
-<ion-row  justify-content-center>
-    <button ion-button *ngIf="(typeContainer.display && typeContainer.POI.length==20) && typeContainer.pagetoken != undefined" (click)="loadMore(typeContainer)">Load more</button>
-</ion-row>
+    <ion-row justify-content-center>
+      <button ion-button
+              *ngIf="(typeContainer.display && typeContainer.POI.length==20) && typeContainer.pagetoken != undefined"
+              (click)="loadMore(typeContainer)">Load more
+      </button>
+    </ion-row>
 
-  </ion-list>
+    </ion-list>
 
 
-
-
+  </ion-card>
 
 
 </ion-content>

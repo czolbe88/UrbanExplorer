@@ -322,8 +322,11 @@ export class HomePage implements OnInit {
 
     else if (resp['status'] != "OK") {
       console.log(`>>>WARNING>>> error encountered >>> writeToContainer for type ${typeContainer.type}`, resp['status'])
-      this.errorEncountered = true;
-      this.errorMessage = resp['status'];
+
+      //TODO: Find a better way to show that no results returned for a particular category
+
+      // this.errorEncountered = true;
+      // this.errorMessage = resp['status'];
     }
 
 // SORTING
