@@ -3,6 +3,7 @@ import {key} from "../Utility/key";
 import {locationService} from "./location";
 import {HttpClient} from "@angular/common/http";
 
+//NOT IN USE
 @Injectable()
 export class distanceService {
 

@@ -1,12 +1,17 @@
 import {Injectable} from "@angular/core";
 import {typeContainer} from "../models/typeContainer";
+import {preferences} from "./preferences";
 
 
 @Injectable()
 export class sortingUtility {
 
 
-  sortBy: string = "distance";
+  constructor(private pref:preferences){
+
+  }
+
+  //sortBy: string = "distance";
 
 
   //sorts the containers
@@ -16,7 +21,7 @@ export class sortingUtility {
 
     console.log(">>>sorting engaged");
 
-    switch (this.sortBy.toString()) {
+    switch (this.pref.sortby) {
 
       case("distance"): {
         console.log("sorting by: distance");

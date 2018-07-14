@@ -13,6 +13,7 @@ import {TabsPage} from "../tabs/tabs";
 import {sortingUtility} from "../../Utility/sorting";
 import {nativeFunctions} from "../../Utility/nativeFunctions";
 import {HaversineService} from "ng2-haversine";
+import {preferences} from "../../Utility/preferences";
 
 @Component({
   selector: 'page-home',
@@ -20,7 +21,7 @@ import {HaversineService} from "ng2-haversine";
 })
 export class HomePage implements OnInit {
 
-  constructor(private nativeFunctions: nativeFunctions, private searchServ: searchService, private typeServ: types, private locationServ: locationService, private sortingUtility: sortingUtility,
+  constructor(private pref: preferences, private nativeFunctions: nativeFunctions, private searchServ: searchService, private typeServ: types, private locationServ: locationService, private sortingUtility: sortingUtility,
               private distanceServ: distanceService, private modal: ModalController, private loadingCtrl: LoadingController, private photoServ: photoService, private haversineSvc: HaversineService) {
 
   }
@@ -33,6 +34,18 @@ export class HomePage implements OnInit {
     //   this.getAllUserPOI(); //DEPLOY FREQUENCY 5 MINS SO THAT DATA IS NOT OVERUSED!
     //
     // });
+
+    // if(this.distanceServ.units == 'metric' && this.pref.range<1000){
+    //   this.distUnit = 'm';
+    //
+    // }
+    // else if(this.pref.units == 'metric' && this.pref.range >=1000){
+    //   this.distUnit = 'km';
+    // }
+    // else if (this.pref.units== 'imperial'){
+    //   this.distUnit = 'miles';
+    // }
+    // console.log("distUnit: " + this.distUnit);
   }
 
   currentLocation: string[] = this.locationServ.currentLocation;
@@ -43,9 +56,14 @@ export class HomePage implements OnInit {
   //container for ALL POI
   foundPOI: place[] = [];
 
-  distUnit: string = "";
+  //assigned to value and not reference
+  distUnit: string[] = this.pref.units;
 
   rootPage: any = TabsPage;
+
+  errorEncountered: boolean;
+
+  errorMessage: string;
 
 
 
@@ -79,6 +97,14 @@ export class HomePage implements OnInit {
 
     //clear all
     this.foundPOI.length = 0;
+    this.errorEncountered = false;
+
+    if(this.typeServ.selectedPOIContainer.length == 0){
+
+      this.errorEncountered = true;
+      this.errorMessage = "No place category has been selected."
+
+    }
 
     for (let typeContainer of this.typeServ.selectedPOIContainer) {
 
@@ -263,7 +289,23 @@ export class HomePage implements OnInit {
         console.log(`destination of ${POIObject.name} is: `, POIdestination2);
         console.log(`origin of ${POIObject.name} is: `, POIorigin);
 
-        var distance: number = this.haversineSvc.getDistanceInKilometers(POIdestination2, POIorigin);
+        var distance: number = 0;
+
+        if (this.distUnit[0] == 'm'){
+          distance = this.haversineSvc.getDistanceInMeters(POIdestination2, POIorigin);
+        }
+
+        else if (this.distUnit[0] == 'km') {
+           distance = this.haversineSvc.getDistanceInKilometers(POIdestination2, POIorigin);
+        }
+
+        else if (this.distUnit[0] == 'miles'){
+           distance = this.haversineSvc.getDistanceInMiles(POIdestination2, POIorigin);
+        }
+
+        distance = this.round(distance);
+
+
         console.log(`Distance of ${POIObject.name} is: `, distance);
         POIObject.distance = distance;
 
@@ -272,25 +314,33 @@ export class HomePage implements OnInit {
         typeContainer.POI.push(POIObject);
         this.foundPOI.push(POIObject);
 
+
+
       }
 
     }
 
     else if (resp['status'] != "OK") {
       console.log(`>>>WARNING>>> error encountered >>> writeToContainer for type ${typeContainer.type}`, resp['status'])
+      this.errorEncountered = true;
+      this.errorMessage = resp['status'];
     }
 
 // SORTING
     if(typeContainer.POI.length >= POIListLen ){
-      console.log("SORTING NOW! length is " + typeContainer.POI.length + " sorting by: " + this.sortingUtility.sortBy)
+      console.log("SORTING NOW! length is " + typeContainer.POI.length + " sorting by: " + this.pref.sortby)
       this.sortingUtility.sortContainer(typeContainer);
 
     }
   }
 
 
+//helper function round to 2 decimal places
+ round(x: number){
 
+    return Math.round(x * 100)/100;
 
+  }
 
 
 }

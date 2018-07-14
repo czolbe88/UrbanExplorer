@@ -2,19 +2,20 @@ import {HttpClient} from '@angular/common/http';
 import {locationService} from "./location";
 import { Injectable, OnInit} from "@angular/core";
 import {key} from "../Utility/key";
+import {preferences} from "../Utility/preferences";
 
 
 @Injectable()
 export class searchService implements OnInit{
 
-constructor(private locationSvc:locationService, private httpClient: HttpClient, private keyConst: key){};
+constructor(private pref:preferences, private locationSvc:locationService, private httpClient: HttpClient, private keyConst: key){};
 
 ngOnInit(){
 
 
 }
 
-range: string = "1000";
+//range: string = "1000";
 
 url: string = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=${this.keyConst.APIKEY}&radius=`;
 
@@ -41,7 +42,7 @@ getAllNearbyPoints(){
 searchByType(type: string): Promise<any>{
 
 
-  var url: string = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=${this.keyConst.APIKEY}&radius=${this.range}&type=${type}&location=${this.locationSvc.currentLocation[0]}&rankby=${this.rankby}`;
+  var url: string = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=${this.keyConst.APIKEY}&radius=${this.pref.range}&type=${type}&location=${this.locationSvc.currentLocation[0]}&rankby=${this.rankby}`;
 
   // if(this.rankby == "distance"){
   //

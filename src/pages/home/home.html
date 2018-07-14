@@ -31,6 +31,8 @@
 
   <!--</ion-list>-->
 
+  <p *ngIf="errorEncountered">{{errorMessage}}</p>
+
   <ion-list *ngFor="let typeContainer of selectedPOIContainer">
     <ion-list-header *ngIf=" typeContainer.POI.length>0" (click)="toggleList(typeContainer)">
       {{typeContainer.friendlyType.toUpperCase()}} - {{typeContainer.POI.length}} results
@@ -48,8 +50,7 @@
       </ion-avatar>
       <h2>{{poi.name}}</h2>
       <h3 text-wrap>{{poi.address}}</h3>
-      <p>{{poi.distance}} {{distUnit}}</p>
-      <p>{{poi.rating}}</p>
+      <p>{{poi.distance}} {{distUnit[0]}}</p>
     </ion-item>
 
   <ion-item-options side="right">

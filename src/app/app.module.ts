@@ -25,6 +25,7 @@ import {IonicImageViewerModule} from "ionic-img-viewer";
 import {nativeFunctions} from "../Utility/nativeFunctions";
 import {AppPreferences} from "@ionic-native/app-preferences";
 import {HaversineService} from "ng2-haversine";
+import {preferences} from "../Utility/preferences";
 
 
 @NgModule({
@@ -65,6 +66,7 @@ import {HaversineService} from "ng2-haversine";
     sortingUtility,
     distanceService,
     photoService,
+    preferences,
     HaversineService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
