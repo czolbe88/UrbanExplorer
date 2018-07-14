@@ -106,7 +106,9 @@ export class MyApp implements OnInit{
         console.log("case: rating");
         for( let container of this.typeSvc.selectedPOIContainer) {
 
-          container.POI.sort( function(a,b){return a.rating - b.rating});
+          container.POI.sort( function(a,b){
+            console.log(`comparing ${a.rating},${b.rating}`);
+            return a.rating - b.rating});
 
 
         }

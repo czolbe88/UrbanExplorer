@@ -67,10 +67,15 @@ export class SelectionPage implements OnInit {
 
   checkIfSelected(i: string): boolean{
 
-    var index = this.typesService.selectedPOIContainer.findIndex(x=> x.type == i);
-    if (index > -1){
-      return true;
+    if( this.typesService.selectedPOIContainer != null) {
+
+
+      var index = this.typesService.selectedPOIContainer.findIndex(x => x.type == i);
+      if (index > -1) {
+        return true;
+      }
     }
+
     else return false;
 
 

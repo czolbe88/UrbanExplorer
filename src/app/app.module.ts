@@ -24,6 +24,7 @@ import {InAppBrowser} from "@ionic-native/in-app-browser";
 import {IonicImageViewerModule} from "ionic-img-viewer";
 import {nativeFunctions} from "../Utility/nativeFunctions";
 import {AppPreferences} from "@ionic-native/app-preferences";
+import {HaversineService} from "ng2-haversine";
 
 
 @NgModule({
@@ -64,6 +65,7 @@ import {AppPreferences} from "@ionic-native/app-preferences";
     sortingUtility,
     distanceService,
     photoService,
+    HaversineService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

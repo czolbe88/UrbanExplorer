@@ -12,6 +12,7 @@ import {typeContainer} from "../../models/typeContainer";
 import {TabsPage} from "../tabs/tabs";
 import {sortingUtility} from "../../Utility/sorting";
 import {nativeFunctions} from "../../Utility/nativeFunctions";
+import {HaversineService} from "ng2-haversine";
 
 @Component({
   selector: 'page-home',
@@ -20,7 +21,7 @@ import {nativeFunctions} from "../../Utility/nativeFunctions";
 export class HomePage implements OnInit {
 
   constructor(private nativeFunctions: nativeFunctions, private searchServ: searchService, private typeServ: types, private locationServ: locationService, private sortingUtility: sortingUtility,
-              private distanceServ: distanceService, private modal: ModalController, private loadingCtrl: LoadingController, private photoServ: photoService) {
+              private distanceServ: distanceService, private modal: ModalController, private loadingCtrl: LoadingController, private photoServ: photoService, private haversineSvc: HaversineService) {
 
   }
 
@@ -60,7 +61,11 @@ export class HomePage implements OnInit {
   }
 
 
+
+
 //REFRESH BUTTON
+
+
   getAllUserPOI() {
 
     let loading = this.loadingCtrl.create({
@@ -96,6 +101,7 @@ export class HomePage implements OnInit {
 
 
     }
+
 
     loading.dismiss();
 
@@ -133,6 +139,7 @@ export class HomePage implements OnInit {
     this.searchServ.getAdditional(typeContainer.pagetoken).then(
 
       result=>{
+        console.log(">>> getAdditional method returns:", result);
 
         this.writeToContainer(result, typeContainer);
 
@@ -216,21 +223,8 @@ export class HomePage implements OnInit {
             POIObject.photoRefContainer = resp['result']['photos'];
 
 
-            //console.log("POIObject is: ", POIObject);
+            console.log("POIObject is: ", POIObject);
 
-            // CHECK FOR LAST ITEM TODO: TEMP SOLUTION ONLY!
-            POIListLen --;
-            //console.log(POIListLen);
-
-            //if this is the last object to have its details updates. APPLY THE SORT!
-            if (POIListLen == 0 ){
-
-              //sort
-              console.log("SORT NOW!");
-              this.sortingUtility.sortContainer(typeContainer);
-
-            }
-            //END OF CHECK FOR LAST ITEM
 
             if (POIObject.photoRefContainer.length > 0) {
 
@@ -243,6 +237,7 @@ export class HomePage implements OnInit {
                 var photoUrl: string = this.photoServ.getPhoto(ref);
 
                 POIObject.photoUrlContainer.push(photoUrl);
+                console.log("pushing photourl into POIObject");
 
 
               }
@@ -257,42 +252,39 @@ export class HomePage implements OnInit {
             //console.log(">>> getPlaceDetails error: ", error); //SUPPRESSED!!!! TODO: HANDLE THIS PROPERLY!
           })
 
+// "AS THE CROW FLIES DIST"
 
         var POIdestination = POIObject.location['lat'].toString() + "," + POIObject.location['lng'].toString();
+        var POIdestination2 = {latitude: POIObject.location['lat'] , longitude: POIObject.location['lng'] };
+
+        var currentLocArray: string[] = this.locationServ.currentLocation[0].split(',');
+        var POIorigin = {latitude: parseFloat(currentLocArray[0]), longitude: parseFloat(currentLocArray[1])};
         //console.log("POIDest is: ", POIdestination);
+        console.log(`destination of ${POIObject.name} is: `, POIdestination2);
+        console.log(`origin of ${POIObject.name} is: `, POIorigin);
 
-        this.distanceServ.getDistance(POIdestination).then((resp) => {
+        var distance: number = this.haversineSvc.getDistanceInKilometers(POIdestination2, POIorigin);
+        console.log(`Distance of ${POIObject.name} is: `, distance);
+        POIObject.distance = distance;
 
-          //console.log(">>> distance matrix service is:", resp);
-          var distString: string = resp['rows'][0]['elements'][0]['distance']['text'];
-          var distStringArray: string[] = distString.split(" ");
-          //console.log("DISTSTRINGARRAY:", distStringArray);
-
-          this.distUnit = distStringArray[1];
-          POIObject.distance = parseFloat(distStringArray[0]);
-          //POIObject.distance = resp['rows'][0]['elements'][0]['distance']['text'];
-          //console.log("POIObject distance: ", POIObject.distance);
-        }).catch((error) => {
-          console.log(">>>getDistance error: ", error);
-        })
-
-
-        //console.log("POIObject", POIObject);
 
         //push into both containers
         typeContainer.POI.push(POIObject);
         this.foundPOI.push(POIObject);
 
-
-
       }
-
 
     }
 
-
     else if (resp['status'] != "OK") {
       console.log(`>>>WARNING>>> error encountered >>> writeToContainer for type ${typeContainer.type}`, resp['status'])
+    }
+
+// SORTING
+    if(typeContainer.POI.length >= POIListLen ){
+      console.log("SORTING NOW! length is " + typeContainer.POI.length + " sorting by: " + this.sortingUtility.sortBy)
+      this.sortingUtility.sortContainer(typeContainer);
+
     }
   }
 
