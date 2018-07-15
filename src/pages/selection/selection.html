@@ -6,7 +6,7 @@
 -->
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar >
     <ion-title>Search Categories</ion-title>
   </ion-navbar>
 
@@ -33,11 +33,17 @@
   <!--</ion-grid>-->
 
 
-  <ion-item *ngFor="let selection of friendlyTypes">
-    <ion-label>{{selection}}</ion-label>
-    <ion-checkbox  checked="false" (ionChange)="toggleSelection(selection, $event)" ></ion-checkbox>
-  </ion-item>
+  <!--<ion-item *ngFor="let selection of friendlyTypes">-->
+    <!--<ion-label>{{selection}}</ion-label>-->
+    <!--<ion-checkbox  checked="false" (ionChange)="toggleSelection(selection, $event)" ></ion-checkbox>-->
+  <!--</ion-item>-->
 
+<ion-list>
+
+    <button ion-item  [ngClass]="{selected: checkIfSelected(selection), unselected: !checkIfSelected(selection)}" *ngFor="let selection of friendlyTypes" (click)="toggleSelection2(selection)" > {{selection}}</button>
+
+
+</ion-list>
 
 </ion-content>
 

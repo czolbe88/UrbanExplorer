@@ -33,6 +33,30 @@ export class types {
     'real estate agency', 'restaurant', 'roofing contractor', 'rv park', 'school', 'shoe store', 'shopping mall', 'spa', 'stadium', 'storage', 'store',
     'subway station', 'supermarket', 'synagogue', 'taxi stand', 'train station', 'transit station', 'travel agency', 'veterinary care', 'zoo']
 
+//   readonly transport: string [] = [ 'airport', 'bus station', 'car rental','parking','subway station', 'taxi stand', 'train station', 'transit station',
+//     'travel agency']
+//
+//   readonly stores: string[] = ['aquarium', 'bakery', 'bicycle store', 'book store', 'car dealer', 'clothing store', 'convenience store', 'department store','electronics store',
+// ,'florist', 'furniture store','hardware store','home goods store', 'insurance agency', 'jewelry store','liquor store','movie rental', 'pet store',
+//   'shoe store', 'shopping mall','store','supermarket']
+//
+//   readonly services: string[] = [ 'accounting', 'atm', 'bank', 'beauty salon', 'car repair', 'car wash',  'doctor', 'electrician','gas station', 'gym', 'hair care',
+//   'insurance agency','laundry', 'lawyer','locksmith', 'lodging', 'meal delivery', 'meal takeaway','moving company','painter','plumber','post office',
+//   'real estate agency', 'roofing contractor', 'spa', 'storage','veterinary care']
+//
+//   readonly healthcare: string[] = [ 'dentist', 'hospital','pharmacy', 'physiotherapist']
+//
+//   readonly government: string[] = ['city hall', 'courthouse', 'embassy', 'fire station','local government office', 'police']
+//
+//   readonly religious: string[] = [ 'church',  'hindu temple','mosque','synagogue' ]
+//
+//   readonly fnb:string[] = [ 'bar', 'cafe',  'restaurant' ]
+//
+//   readonly recreational: string[] =[ 'amusement park', 'art gallery', 'bowling alley', 'campground', 'casino', 'library','movie theater',
+//     'museum', 'night club','park', 'rv park','stadium','zoo']
+//
+//   readonly others: string[] = [ 'cemetery', 'funeral home','school']
+
 
   selectedPOIContainer: typeContainer[] = [];
 

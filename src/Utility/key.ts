@@ -5,6 +5,6 @@ import {Injectable} from "@angular/core";
 
 export class key{
 
-  readonly APIKEY:string =  "AIzaSyDf0bYOfQQ_tgF08OBQBZ4879dLXtFBABI";
+  readonly APIKEY:string =  "del";
 
 }

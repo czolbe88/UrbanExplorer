@@ -18,7 +18,6 @@ import {AppPreferences} from "@ionic-native/app-preferences";
 })
 export class SelectionPage implements OnInit {
 
-
   allTypes: string[] = this.typesService.allTypes;
   friendlyTypes: string[] = this.typesService.friendlyTypes;
 
@@ -49,6 +48,18 @@ export class SelectionPage implements OnInit {
 
   }
 
+  toggleSelection2(selection){
+
+    if(this.checkIfSelected(selection)){
+      this.removeSelection(selection);
+    }
+
+    else{
+      this.addSelection(selection);
+    }
+
+
+  }
 
   addSelection(i:string){
 
